@@ -1,0 +1,188 @@
+openapi: 3.0.0
+info:
+  title: IQ-Air-API
+  contact: { }
+  version: '1.0'
+servers:
+  - url: http://localhost:3000/api/v1
+    variables: { }
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Misc
+      summary: register
+      operationId: register
+      parameters: [ ]
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/registerrequest'
+                - example:
+                    name: Nemanja
+                    email: nemanja@gmail.com
+                    password: secret
+            example:
+              name: Nemanja
+              email: nemanja@gmail.com
+              password: secret
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: { }
+      deprecated: false
+  /data:
+    get:
+      tags:
+        - Misc
+      summary: Get all data
+      operationId: Getalldata
+      parameters: [ ]
+      responses:
+        '200':
+          description: ''
+          headers: { }
+      deprecated: false
+      security: [ ]
+  /auth/login:
+    post:
+      tags:
+        - Misc
+      summary: login
+      operationId: login
+      parameters: [ ]
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/loginrequest'
+                - example:
+                    name: Nemanja
+                    email: nemanja@gmail.com
+                    password: secret
+            example:
+              name: Nemanja
+              email: nemanja@gmail.com
+              password: secret
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: { }
+      deprecated: false
+  /auth/logout:
+    delete:
+      tags:
+        - Misc
+      summary: logout
+      operationId: logout
+      parameters: [ ]
+      responses:
+        '200':
+          description: ''
+          headers: { }
+      deprecated: false
+  /data/login:
+    get:
+      tags:
+        - STATIC
+      summary: get login form
+      operationId: getloginform
+      parameters: [ ]
+      responses:
+        '200':
+          description: ''
+          headers: { }
+      deprecated: false
+  /data/register:
+    get:
+      tags:
+        - STATIC
+      summary: get register form
+      operationId: getregisterform
+      parameters: [ ]
+      responses:
+        '200':
+          description: ''
+          headers: { }
+      deprecated: false
+  /auth:
+    get:
+      tags:
+        - STATIC
+      summary: get  index page
+      operationId: getindexpage
+      parameters: [ ]
+      responses:
+        '200':
+          description: ''
+          headers: { }
+      deprecated: false
+      security: [ ]
+components:
+  schemas:
+    registerrequest:
+      title: registerrequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: Nemanja
+        email: nemanja@gmail.com
+        password: secret
+    loginrequest:
+      title: loginrequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: Nemanja
+        email: nemanja@gmail.com
+        password: secret
+    logoutrequest:
+      title: logoutrequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: ivica
+        email: ivica@gmail.com
+        password: secret
+tags:
+  - name: Misc
+    description: ''
+  - name: STATIC
+    description: ''
