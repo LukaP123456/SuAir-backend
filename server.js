@@ -10,16 +10,10 @@ server.use(session({
     resave: false,
     saveUninitialized: true
 }));
-const bcrypt = require('bcryptjs')
 const connectDB = require('./DB/connect')
-const User = require('./app/Models/User')
 const InvalidToken = require('./app/Models/InvalidToken')
-const VerificationToken = require('./app/Models/VerificationToken')
-const sendEmail = require("./email");
-const crypto = require("crypto");
 require("dotenv").config();
 const InitializePassport = require('./passport-config')
-const jwt = require('jsonwebtoken');
 //ERROR HANDLERS CALL
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
@@ -30,6 +24,7 @@ const swaggerUI = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./swagger.yaml')
 //EXTRA SECURITY
+const flash = require('express-flash')
 const helmet = require('helmet')
 const cors = require('cors')
 const xss = require('xss-clean')
