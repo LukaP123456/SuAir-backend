@@ -102,7 +102,6 @@ async function isLoggedIn(req, res, next) {
 // -------------------------------------GOOGLE AUTH ROUTES END-------------------------------------
 server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
-
 // -------------------------------------ROUTES END-------------------------------------
 
 server.use(notFoundMiddleware);
@@ -111,7 +110,7 @@ const port = 3000
 
 const start = async () => {
     try {
-        await connectDB('mongodb://lukaprcic:compassPass@localhost:27017/?authMechanism=DEFAULT')
+        await connectDB(process.env.MONGO_COMPASS_URI)
         server.listen(port, () =>
             console.log(`Server is listening on port ${port}...`)
         );
