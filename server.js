@@ -17,8 +17,9 @@ const InitializePassport = require('./passport-config')
 //ERROR HANDLERS CALL
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
-const AuthRouter = require('./Routes/AuthRoutes')
-const ProtectedAuthRouter = require('./Routes/ProtectedAuthRoutes')
+const AuthRoutes = require('./Routes/AuthRoutes')
+const ProtectedAuthRoutes = require('./Routes/ProtectedAuthRoutes')
+const DistrictRoutes = require('./Routes/DistrictRoutes')
 //SWAGGER
 const swaggerUI = require('swagger-ui-express')
 const YAML = require('yamljs')
@@ -54,14 +55,17 @@ server.use(flash())
 InitializePassport()
 server.set('view-engine', 'ejs')
 
-server.use('/auth', AuthRouter)
-server.use('/auth', isLoggedIn, ProtectedAuthRouter)
+server.use('/auth', AuthRoutes)
+server.use('/auth', isLoggedIn, ProtectedAuthRoutes)
+server.use('/districts', DistrictRoutes)
 
 // -------------------------------------GOOGLE AUTH ROUTES START-------------------------------------
-//test
-
 server.get('/google/success', isLoggedIn, (req, res) => {
     res.send('success')
+})
+
+server.get('/index', (req, res) => {
+    res.send('Home route')
 })
 server.get('/protectedRoute', isLoggedIn, (req, res) => {
     res.send('YOu are on the protected route')
@@ -70,7 +74,7 @@ server.get('/google/failure', (req, res) => {
     res.send('failure')
 })
 
-server.get('/', (req, res) => {
+server.get('/googleHome', (req, res) => {
     res.send('<a href="/auth/google">Authenticate with Google</a>')
 })
 
@@ -96,7 +100,7 @@ async function isLoggedIn(req, res, next) {
         }
         return next();
     }
-    res.redirect('/')
+    res.redirect('/index')
 }
 
 // -------------------------------------GOOGLE AUTH ROUTES END-------------------------------------

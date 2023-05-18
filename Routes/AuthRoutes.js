@@ -6,6 +6,6 @@ const {
 
 router.post('/register', JWTregister)
 router.post('/login', JWTlogin)
-router.post('/verify/:id/:token', JWTverify)
+router.get('/verify/:id/:token', JWTverify)
 
 module.exports = router

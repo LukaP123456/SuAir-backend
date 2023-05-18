@@ -23,6 +23,7 @@ const JWTregister = async (req, res, next) => {
             token: crypto.randomBytes(32).toString("hex"),
         }).save();
         const verificationLink = `${process.env.BASE_URL}/auth/verify/${user.id}/${verificationToken.token}`;
+        console.log(verificationLink)
         await sendEmail('SuAir@gmail.com', "Verification Email for SuAir", user.email, verificationLink);
         res.status(StatusCodes.CREATED).send(`User created, email has been sent to your account ${user.email}`)
     } catch (error) {
@@ -33,16 +34,19 @@ const JWTregister = async (req, res, next) => {
 const JWTverify = async (req, res) => {
     try {
         const user = await User.findOne({_id: req.params.id});
+        console.log(user)
         if (!user) return res.status(400).send("Invalid link");
         const token = await VerificationToken.findOne({
             userId: user._id,
             token: req.params.token,
         });
+        console.log(token)
         if (!token) return res.status(400).send("Invalid link");
         await user.updateOne({verified: true});
         await VerificationToken.findByIdAndRemove(token._id);
         console.log('Email verified successfully')
-        res.redirect('/login');//React login page goes here
+        // res.redirect('/user-verified');//React login page goes here
+        res.send('You have been verified');//React login page goes here
     } catch (error) {
         res.status(400).redirect('/login?e=error-message');//React login page goes here
         // res.status(400).send("An error occurred");
