@@ -20,6 +20,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 const AuthRoutes = require('./Routes/AuthRoutes')
 const ProtectedAuthRoutes = require('./Routes/ProtectedAuthRoutes')
 const DistrictRoutes = require('./Routes/DistrictRoutes')
+const AQIRoutes = require('./Routes/AQIRoutes')
 //SWAGGER
 const swaggerUI = require('swagger-ui-express')
 const YAML = require('yamljs')
@@ -57,7 +58,8 @@ server.set('view-engine', 'ejs')
 
 server.use('/auth', AuthRoutes)
 server.use('/auth', isLoggedIn, ProtectedAuthRoutes)
-server.use('/districts', DistrictRoutes)
+server.use('/districts', isLoggedIn, DistrictRoutes)
+server.use('/AQI', isLoggedIn, AQIRoutes)
 
 // -------------------------------------GOOGLE AUTH ROUTES START-------------------------------------
 server.get('/google/success', isLoggedIn, (req, res) => {
