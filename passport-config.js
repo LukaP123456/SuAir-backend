@@ -35,7 +35,9 @@ function InitializePassport() {
             //Find a user in the DB based on the users googleID, if the user exists the user will be logged in if the user doesn't exist
             //he will be registered ie saved in the database
             User.findOne({googleID: profile.id}, function (err, user) {
+                console.log(err)
                 if (err) {
+                    console.log(err)
                     return done(err)
                 }
                 if (!user) {
@@ -57,9 +59,11 @@ function InitializePassport() {
         }
     ));
     passport.serializeUser(function (user, done) {
+        console.log('serialize')
         done(null, user)
     })
     passport.deserializeUser(function (user, done) {
+        console.log('deserialize')
         done(null, user)
     })
 }

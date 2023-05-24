@@ -54,32 +54,27 @@ server.use(flash())
 // -------------------------------------MIDDLEWARES END-------------------------------------
 // -------------------------------------ROUTES START-------------------------------------
 InitializePassport()
-server.set('view-engine', 'ejs')
-
 server.use('/auth', AuthRoutes)
 server.use('/auth', isLoggedIn, ProtectedAuthRoutes)
 server.use('/districts', isLoggedIn, DistrictRoutes)
 server.use('/AQI', isLoggedIn, AQIRoutes)
 
 // -------------------------------------GOOGLE AUTH ROUTES START-------------------------------------
+server.get('/', (req, res) => {
+    res.send('<a href="/auth/google">Authenticate with Google</a>')
+})
 server.get('/google/success', isLoggedIn, (req, res) => {
     res.send('success')
-})
-
-server.get('/index', (req, res) => {
-    res.send('Home route')
-})
-server.get('/protectedRoute', isLoggedIn, (req, res) => {
-    res.send('YOu are on the protected route')
 })
 server.get('/google/failure', (req, res) => {
     res.send('failure')
 })
-
-server.get('/googleHome', (req, res) => {
-    res.send('<a href="/auth/google">Authenticate with Google</a>')
+server.get('/protectedRoute', isLoggedIn, (req, res) => {
+    res.send('YOu are on the protected route')
 })
-
+server.get('/auth/google',
+    passport.authenticate('google', {scope: ['email', 'profile']}
+    ));
 server.get('/authFailure', (req, res) => {
     res.send('Something went wrong..')
 })
@@ -102,7 +97,7 @@ async function isLoggedIn(req, res, next) {
         }
         return next();
     }
-    res.redirect('/index')
+    res.redirect('/google/failure')
 }
 
 // -------------------------------------GOOGLE AUTH ROUTES END-------------------------------------
