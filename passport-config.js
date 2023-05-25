@@ -7,11 +7,13 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require("dotenv").config();
 
 function InitializePassport() {
+    console.log("YOU ARE IN InitializePassport()")
     // Configure jwt strategy
     passport.use(new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
         secretOrKey: process.env.JWT_SECRET_KEY,
     }, async (jwtPayload, done) => {
+        console.log("YOU ARE INITIALIZING JWT")
         try {
             const user = await User.findById(jwtPayload.id);
             if (user) {
@@ -35,9 +37,10 @@ function InitializePassport() {
             //Find a user in the DB based on the users googleID, if the user exists the user will be logged in if the user doesn't exist
             //he will be registered ie saved in the database
             User.findOne({googleID: profile.id}, function (err, user) {
-                console.log(err)
+                console.log("THE ERROR->", err)
+                console.log('THE USER->', user)
                 if (err) {
-                    console.log(err)
+                    console.log('THE ERROR->', err)
                     return done(err)
                 }
                 if (!user) {
