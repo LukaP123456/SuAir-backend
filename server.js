@@ -1,15 +1,15 @@
 const express = require('express');
-const cron = require("node-cron");
-//CRON JOB
-const getData = require('./Jobs/get_aqi_data_job')
-const session = require('express-session')
 const server = express();
-const passport = require('passport');
+const session = require('express-session')
 server.use(session({
     secret: 'cat',
     resave: false,
     saveUninitialized: true
 }));
+const cron = require("node-cron");
+//CRON JOB
+const getData = require('./Jobs/get_aqi_data_job')
+const passport = require('passport');
 const connectDB = require('./DB/connect')
 const InvalidToken = require('./app/Models/InvalidToken')
 require("dotenv").config();
@@ -54,42 +54,9 @@ server.use(flash())
 // -------------------------------------MIDDLEWARES END-------------------------------------
 // -------------------------------------ROUTES START-------------------------------------
 InitializePassport()
-server.set('view-engine', 'ejs')
-
-server.use('/auth', AuthRoutes)
-server.use('/auth', isLoggedIn, ProtectedAuthRoutes)
-server.use('/districts', isLoggedIn, DistrictRoutes)
-server.use('/AQI', isLoggedIn, AQIRoutes)
-
-// -------------------------------------GOOGLE AUTH ROUTES START-------------------------------------
-server.get('/google/success', isLoggedIn, (req, res) => {
-    res.send('success')
-})
-
-server.get('/index', (req, res) => {
-    res.send('Home route')
-})
-server.get('/protectedRoute', isLoggedIn, (req, res) => {
-    res.send('YOu are on the protected route')
-})
-server.get('/google/failure', (req, res) => {
-    res.send('failure')
-})
-
-server.get('/googleHome', (req, res) => {
-    res.send('<a href="/auth/google">Authenticate with Google</a>')
-})
-
-server.get('/authFailure', (req, res) => {
-    res.send('Something went wrong..')
-})
-
-server.get('/google/callback', passport.authenticate('google', {
-    successRedirect: '/google/success',
-    failureRedirect: '/google/failure'
-}))
 
 async function isLoggedIn(req, res, next) {
+    console.log('YOU ARE IN isLoggedIn')
     if (req.isAuthenticated()) {
         return next();
     }
@@ -102,8 +69,33 @@ async function isLoggedIn(req, res, next) {
         }
         return next();
     }
-    res.redirect('/index')
 }
+
+server.use('/JWTauth', AuthRoutes)
+server.use('/JWTauth', isLoggedIn, ProtectedAuthRoutes)
+server.use('/districts', isLoggedIn, DistrictRoutes)
+server.use('/AQI', isLoggedIn, AQIRoutes)
+
+// -------------------------------------GOOGLE AUTH ROUTES START-------------------------------------
+server.get('/', (req, res) => {
+    res.send('<a href="/auth/google">Authenticate with Google </a>')
+})
+server.get('/protected', isLoggedIn, (req, res) => {
+    console.log(req.user)
+    res.send(`Hello ${req.user.name}`)
+})
+server.get('/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}))
+server.get('/google/callback', passport.authenticate('google', {
+    successRedirect: '/protected',
+    failureRedirect: '/auth/failure',
+}))
+server.get('/auth/failure', (req, res) => {
+    res.send('Something went wrong')
+})
+server.get('/logout', (req, res) => {
+    req.logout()
+    res.send('Goodbye')
+})
 
 // -------------------------------------GOOGLE AUTH ROUTES END-------------------------------------
 server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
