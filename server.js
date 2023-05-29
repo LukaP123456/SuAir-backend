@@ -45,10 +45,20 @@ server.use(
     })
 )
 server.use(helmet())
-server.use(cors({
-    origin: 'http://localhost:4000/',//<--- location of the frontend
-    credentials: true
-}))
+//CORS                          FRONTEND                    BEKEND
+// let whitelist = ['http://localhost:3000/', 'http://localhost:4000/']//<--FRONTEND URL HERE
+// let corsOptions = {
+//     origin: function (origin, callback) {
+//         console.log('cors is being used')
+//         console.log(origin, whitelist.indexOf(origin))
+//         if (whitelist.indexOf(origin) !== -1) {
+//             callback(null, true)
+//         } else {
+//             callback(new Error('Not allowed by CORS'))
+//         }
+//     }
+// }
+server.options(['http://localhost:3000/', 'http://localhost:4000/'], cors()) // include before other routes
 server.use(xss())
 server.use(flash())
 // -------------------------------------MIDDLEWARES END-------------------------------------
@@ -71,8 +81,8 @@ async function isLoggedIn(req, res, next) {
     }
 }
 
-server.use('/JWTauth', AuthRoutes)
-server.use('/JWTauth', isLoggedIn, ProtectedAuthRoutes)
+server.use('/rauth', AuthRoutes)
+server.use('/rauth', isLoggedIn, ProtectedAuthRoutes)
 server.use('/districts', isLoggedIn, DistrictRoutes)
 server.use('/AQI', isLoggedIn, AQIRoutes)
 
@@ -99,12 +109,13 @@ server.get('/logout', (req, res) => {
 
 // -------------------------------------GOOGLE AUTH ROUTES END-------------------------------------
 server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+// server.use(cors(corsOptions))
 
 // -------------------------------------ROUTES END-------------------------------------
 
 server.use(notFoundMiddleware);
 server.use(errorHandlerMiddleware);
-const port = 3000
+const port = process.env.PORT
 
 const start = async () => {
     try {
