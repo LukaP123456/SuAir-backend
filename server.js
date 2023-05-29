@@ -46,7 +46,7 @@ server.use(
 )
 server.use(helmet())
 server.use(cors({
-    origin: 'http://localhost:4000/',//<--- location of the frontend
+    origin: '*',//<--- location of the frontend
     credentials: true
 }))
 server.use(xss())
