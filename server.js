@@ -45,27 +45,13 @@ server.use(
     })
 )
 server.use(helmet())
-<<<<<<< HEAD
-//CORS                          FRONTEND                    BEKEND
-// let whitelist = ['http://localhost:3000/', 'http://localhost:4000/']//<--FRONTEND URL HERE
-// let corsOptions = {
-//     origin: function (origin, callback) {
-//         console.log('cors is being used')
-//         console.log(origin, whitelist.indexOf(origin))
-//         if (whitelist.indexOf(origin) !== -1) {
-//             callback(null, true)
-//         } else {
-//             callback(new Error('Not allowed by CORS'))
-//         }
-//     }
-// }
+
 server.options(['http://localhost:3000/', 'http://localhost:4000/'], cors()) // include before other routes
-=======
 server.use(cors({
     origin: '*',//<--- location of the frontend
     credentials: true
 }))
->>>>>>> 6fa05b1233683fe2dd43504da6454802aa6ef4fd
+
 server.use(xss())
 server.use(flash())
 // -------------------------------------MIDDLEWARES END-------------------------------------
