@@ -47,11 +47,6 @@ server.use(
 server.use(helmet())
 
 server.options(['http://localhost:3000/', 'http://localhost:4000/'], cors()) // include before other routes
-server.use(cors({
-    origin: '*',//<--- location of the frontend
-    credentials: true
-}))
-
 server.use(xss())
 server.use(flash())
 // -------------------------------------MIDDLEWARES END-------------------------------------
@@ -102,7 +97,6 @@ server.get('/logout', (req, res) => {
 
 // -------------------------------------GOOGLE AUTH ROUTES END-------------------------------------
 server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
-// server.use(cors(corsOptions))
 
 // -------------------------------------ROUTES END-------------------------------------
 

@@ -22,11 +22,7 @@ const JWTregister = async (req, res, next) => {
             userId: user._id,
             token: crypto.randomBytes(32).toString("hex"),
         }).save();
-<<<<<<< HEAD
         const verificationLink = `${process.env.BASE_URL}/rauth/verify/${user.id}/${verificationToken.token}`;
-=======
-        const verificationLink = `${process.env.BASE_URL}auth/verify/${user.id}/${verificationToken.token}`;
->>>>>>> 6fa05b1233683fe2dd43504da6454802aa6ef4fd
         console.log(verificationLink)
         await sendEmail('SuAir@gmail.com', "Verification Email for SuAir", user.email, verificationLink);
         res.status(StatusCodes.CREATED).send(`User created, email has been sent to your account ${user.email}`)
