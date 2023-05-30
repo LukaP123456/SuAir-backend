@@ -46,10 +46,20 @@ server.use(
 )
 server.use(helmet())
 
-// server.options(['http://localhost:3000/', 'http://localhost:4000/'], cors()) // include before other routes
-server.use(
-    cors({origin: ['http://localhost:3000', 'http://127.0.0.1:4000']})
-);
+// server.use(
+//     cors({origin: ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:4000', 'http://localhost:63342/praksa/node_test/fetch-test/fetch.html?_ijt=7j2ivutrqk9a962dg0vbhm1rku&_ij_reload=RELOAD_ON_SAVE']})
+// );
+// server.use(cors())
+
+const corsOptions = {
+    origin: 'http://localhost:3001',//<-- FRONTEND URL GOES HERE
+    credentials: true,            //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+}
+
+server.use(cors(corsOptions))
+
+
 server.use(xss())
 server.use(flash())
 // -------------------------------------MIDDLEWARES END-------------------------------------
