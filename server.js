@@ -46,7 +46,10 @@ server.use(
 )
 server.use(helmet())
 
-server.options(['http://localhost:3000/', 'http://localhost:4000/'], cors()) // include before other routes
+// server.options(['http://localhost:3000/', 'http://localhost:4000/'], cors()) // include before other routes
+server.use(
+    cors({origin: ['http://localhost:3000', 'http://127.0.0.1:4000']})
+);
 server.use(xss())
 server.use(flash())
 // -------------------------------------MIDDLEWARES END-------------------------------------
