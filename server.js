@@ -130,4 +130,4 @@ const start = async () => {
 
 start();
 //CRON JOBS
-// cron.schedule('* * * * *', getData);
+cron.schedule('0 * * * *', getData);

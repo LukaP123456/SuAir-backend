@@ -39,7 +39,8 @@ async function saveData(data) {
             test_message: "Data added at: " + time_added,
             pollution: {
                 ts: new Date(data.pollution.ts),
-                aqius: data.pollution.aqius,
+                // aqius: data.pollution.aqius,
+                aqius: 111111111,
                 mainus: data.pollution.mainus,
             },
             weather: {
