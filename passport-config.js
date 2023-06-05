@@ -11,7 +11,7 @@ function InitializePassport() {
     // Configure jwt strategy
     passport.use(new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: process.env.JWT_SECRET_KEY,
+        secretOrKey: process.env.JWT_SECRET,
     }, async (jwtPayload, done) => {
         console.log("YOU ARE INITIALIZING JWT")
         try {
