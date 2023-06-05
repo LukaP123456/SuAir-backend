@@ -69,9 +69,9 @@ const JWTlogin = async (req, res, next) => {
         if (!isPasswordCorrect) {
             throw new UnauthenticatedError('Invalid credentials')
         }
-        const secret_key = 'secret'
+        const secret_key = process.env.JWT_SECRET
         if (user && isPasswordCorrect) {
-            const token = jwt.sign({id: user._id}, secret_key, {expiresIn: '1d'});
+            const token = jwt.sign({id: user._id, name: user.name, email: user.email}, secret_key, {expiresIn: '1d'});
             // const token = jwt.sign({id: user._id}, secret_key);
             res.status(200).json({token});
         } else {
