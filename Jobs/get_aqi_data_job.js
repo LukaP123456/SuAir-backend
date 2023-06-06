@@ -9,6 +9,10 @@ const STATE = process.env.STATE;
 const COUNTRY = process.env.COUNTRY;
 const URL = `http://api.airvisual.com/v2/city?city=${CITY}&state=${STATE}&country=${COUNTRY}&key=${API_KEY}` //https://api-docs.iqair.com/
 
+const LAT = '46.0994'
+const LON = '19.670468'
+const STATION_URL = `http://api.airvisual.com/v2/nearest_station?lat=${LAT}3&lon=${LON}&key=${API_KEY}`
+
 const DATABASE_URL = process.env.COMPASS_URI
 const client = new MongoClient(DATABASE_URL, {useUnifiedTopology: true});
 
@@ -39,8 +43,7 @@ async function saveData(data) {
             test_message: "Data added at: " + time_added,
             pollution: {
                 ts: new Date(data.pollution.ts),
-                // aqius: data.pollution.aqius,
-                aqius: 111111111,
+                aqius: data.pollution.aqius,
                 mainus: data.pollution.mainus,
             },
             weather: {

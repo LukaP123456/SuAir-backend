@@ -16,7 +16,9 @@ async function generateCSV(aqData) {
     ];
     const parser = new AsyncParser({fields});
     const data = await parser.parse(aqData).promise();
-    fs.writeFileSync('data.csv', data);
+    const name = Math.random()
+    console.log(name)
+    fs.writeFileSync(name + '.csv', data);
 }
 
 const getAll = async (req, res) => {
@@ -34,27 +36,28 @@ const getAll = async (req, res) => {
 const xofAllTime = async (req, res) => {
     try {
         const worst = req.body.worst === 'true';
-        const generate = req.body.genertateCSV === 'true';
+        const generate = req.body.generateCSV === 'true'
         AQdata.find()
             .sort(worst ? '-pollution.aqius' : 'pollution.aqius')
             .limit(1)
-            .exec((error, data) => {
+            .exec(async (error, data) => {
+                if (generate) {
+                    await generateCSV(data);
+                }
                 res.send(data)
             });
-        if (generate) {
-            await generateCSV(aqData);
-        }
+
     } catch (error) {
         console.log(error)
     }
 }
-const getWorstInMonth = async (req, res) => {
+const getXInTime = async (req, res) => {
     try {
         //worst === true you get the worst day with the highest pollution
         //worst === false you get the best day with the lowest pollution
         const {start, end} = req.body
         const worst = req.body.worst === 'true';
-        const generate = req.body.genertateCSV === 'true';
+        const generate = req.body.generateCSV === 'true';
         AQdata.find({
             'pollution.ts': {
                 $gte: start,
@@ -62,12 +65,12 @@ const getWorstInMonth = async (req, res) => {
             }
         }).sort(worst ? '-pollution.aqius' : 'pollution.aqius')
             .limit(1)
-            .exec((error, data) => {
+            .exec(async (error, data) => {
+                if (generate) {
+                    await generateCSV(data);
+                }
                 res.send(data)
             });
-        if (generate) {
-            await generateCSV(aqData);
-        }
     } catch (error) {
         console.log(error)
     }
@@ -75,5 +78,5 @@ const getWorstInMonth = async (req, res) => {
 
 
 module.exports = {
-    getAll, xofAllTime, getWorstInMonth
+    getAll, xofAllTime, getXInTime
 }
