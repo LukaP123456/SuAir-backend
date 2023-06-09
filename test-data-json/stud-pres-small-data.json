@@ -1,0 +1,514 @@
+{
+  "current": {
+    "ts": "2023-06-09T08:00:00.000Z",
+    "aqius": 57,
+    "aqicn": 21,
+    "pm25": {
+      "aqius": 57,
+      "aqicn": 21,
+      "concentration": 15
+    },
+    "mainus": "pm25",
+    "maincn": "pm25",
+    "condition": "Broken clouds",
+    "icon": "04d",
+    "humidity": 83,
+    "pressure": 1013,
+    "temperature": 18,
+    "wind": {
+      "speed": 1.13,
+      "direction": 145
+    }
+  },
+  "historical": {
+    "hourly": [
+      {
+        "ts": "2023-06-09T08:00:00.000Z",
+        "aqius": 57,
+        "aqicn": 21,
+        "pm25": {
+          "aqius": 57,
+          "aqicn": 21,
+          "concentration": 15
+        }
+      },
+      {
+        "ts": "2023-06-09T07:00:00.000Z",
+        "aqius": 45,
+        "aqicn": 16,
+        "pm25": {
+          "aqius": 45,
+          "aqicn": 16,
+          "concentration": 11
+        }
+      },
+      {
+        "ts": "2023-06-09T06:00:00.000Z",
+        "aqius": 33,
+        "aqicn": 11,
+        "pm25": {
+          "aqius": 33,
+          "aqicn": 11,
+          "concentration": 8
+        }
+      },
+      {
+        "ts": "2023-06-09T05:00:00.000Z",
+        "aqius": 50,
+        "aqicn": 17,
+        "pm25": {
+          "aqius": 50,
+          "aqicn": 17,
+          "concentration": 12
+        }
+      },
+      {
+        "ts": "2023-06-09T04:00:00.000Z",
+        "aqius": 45,
+        "aqicn": 16,
+        "pm25": {
+          "aqius": 45,
+          "aqicn": 16,
+          "concentration": 11
+        }
+      },
+      {
+        "ts": "2023-06-09T03:00:00.000Z",
+        "aqius": 29,
+        "aqicn": 10,
+        "pm25": {
+          "aqius": 29,
+          "aqicn": 10,
+          "concentration": 7
+        }
+      },
+      {
+        "ts": "2023-06-09T02:00:00.000Z",
+        "aqius": 21,
+        "aqicn": 7,
+        "pm25": {
+          "aqius": 21,
+          "aqicn": 7,
+          "concentration": 5
+        }
+      },
+      {
+        "ts": "2023-06-09T01:00:00.000Z",
+        "aqius": 33,
+        "aqicn": 11,
+        "pm25": {
+          "aqius": 33,
+          "aqicn": 11,
+          "concentration": 8
+        }
+      },
+      {
+        "ts": "2023-06-09T00:00:00.000Z",
+        "aqius": 37,
+        "aqicn": 13,
+        "pm25": {
+          "aqius": 37,
+          "aqicn": 13,
+          "concentration": 9
+        }
+      },
+      {
+        "ts": "2023-06-08T23:00:00.000Z",
+        "aqius": 55,
+        "aqicn": 20,
+        "pm25": {
+          "aqius": 55,
+          "aqicn": 20,
+          "concentration": 14
+        }
+      },
+      {
+        "ts": "2023-06-08T22:00:00.000Z",
+        "aqius": 86,
+        "aqicn": 41,
+        "pm25": {
+          "aqius": 86,
+          "aqicn": 41,
+          "concentration": 29
+        }
+      },
+      {
+        "ts": "2023-06-08T21:00:00.000Z",
+        "aqius": 97,
+        "aqicn": 49,
+        "pm25": {
+          "aqius": 97,
+          "aqicn": 49,
+          "concentration": 34
+        }
+      },
+      {
+        "ts": "2023-06-08T20:00:00.000Z",
+        "aqius": 78,
+        "aqicn": 36,
+        "pm25": {
+          "aqius": 78,
+          "aqicn": 36,
+          "concentration": 25
+        }
+      },
+      {
+        "ts": "2023-06-08T19:00:00.000Z",
+        "aqius": 72,
+        "aqicn": 31,
+        "pm25": {
+          "aqius": 72,
+          "aqicn": 31,
+          "concentration": 22
+        }
+      },
+      {
+        "ts": "2023-06-08T18:00:00.000Z",
+        "aqius": 61,
+        "aqicn": 24,
+        "pm25": {
+          "aqius": 61,
+          "aqicn": 24,
+          "concentration": 17
+        }
+      },
+      {
+        "ts": "2023-06-08T17:00:00.000Z",
+        "aqius": 72,
+        "aqicn": 31,
+        "pm25": {
+          "aqius": 72,
+          "aqicn": 31,
+          "concentration": 22
+        }
+      },
+      {
+        "ts": "2023-06-08T16:00:00.000Z",
+        "aqius": 82,
+        "aqicn": 39,
+        "pm25": {
+          "aqius": 82,
+          "aqicn": 39,
+          "concentration": 27
+        }
+      },
+      {
+        "ts": "2023-06-08T15:00:00.000Z",
+        "aqius": 82,
+        "aqicn": 39,
+        "pm25": {
+          "aqius": 82,
+          "aqicn": 39,
+          "concentration": 27
+        }
+      },
+      {
+        "ts": "2023-06-08T14:00:00.000Z",
+        "aqius": 70,
+        "aqicn": 30,
+        "pm25": {
+          "aqius": 70,
+          "aqicn": 30,
+          "concentration": 21
+        }
+      },
+      {
+        "ts": "2023-06-08T13:00:00.000Z",
+        "aqius": 57,
+        "aqicn": 21,
+        "pm25": {
+          "aqius": 57,
+          "aqicn": 21,
+          "concentration": 15
+        }
+      },
+      {
+        "ts": "2023-06-08T12:00:00.000Z",
+        "aqius": 57,
+        "aqicn": 21,
+        "pm25": {
+          "aqius": 57,
+          "aqicn": 21,
+          "concentration": 15
+        }
+      },
+      {
+        "ts": "2023-06-08T11:00:00.000Z",
+        "aqius": 70,
+        "aqicn": 30,
+        "pm25": {
+          "aqius": 70,
+          "aqicn": 30,
+          "concentration": 21
+        }
+      },
+      {
+        "ts": "2023-06-08T10:00:00.000Z",
+        "aqius": 88,
+        "aqicn": 43,
+        "pm25": {
+          "aqius": 88,
+          "aqicn": 43,
+          "concentration": 30
+        }
+      },
+      {
+        "ts": "2023-06-08T09:00:00.000Z",
+        "aqius": 72,
+        "aqicn": 31,
+        "pm25": {
+          "aqius": 72,
+          "aqicn": 31,
+          "concentration": 22
+        }
+      },
+      {
+        "ts": "2023-06-08T08:00:00.000Z",
+        "aqius": 84,
+        "aqicn": 40,
+        "pm25": {
+          "aqius": 84,
+          "aqicn": 40,
+          "concentration": 28
+        }
+      },
+      {
+        "ts": "2023-06-08T07:00:00.000Z",
+        "aqius": 72,
+        "aqicn": 31,
+        "pm25": {
+          "aqius": 72,
+          "aqicn": 31,
+          "concentration": 22
+        }
+      },
+      {
+        "ts": "2023-06-08T06:00:00.000Z",
+        "aqius": 63,
+        "aqicn": 26,
+        "pm25": {
+          "aqius": 63,
+          "aqicn": 26,
+          "concentration": 18
+        }
+      },
+      {
+        "ts": "2023-06-08T05:00:00.000Z",
+        "aqius": 63,
+        "aqicn": 26,
+        "pm25": {
+          "aqius": 63,
+          "aqicn": 26,
+          "concentration": 18
+        }
+      },
+      {
+        "ts": "2023-06-08T04:00:00.000Z",
+        "aqius": 61,
+        "aqicn": 24,
+        "pm25": {
+          "aqius": 61,
+          "aqicn": 24,
+          "concentration": 17
+        }
+      },
+      {
+        "ts": "2023-06-08T03:00:00.000Z",
+        "aqius": 59,
+        "aqicn": 23,
+        "pm25": {
+          "aqius": 59,
+          "aqicn": 23,
+          "concentration": 16
+        }
+      },
+      {
+        "ts": "2023-06-08T02:00:00.000Z",
+        "aqius": 55,
+        "aqicn": 20,
+        "pm25": {
+          "aqius": 55,
+          "aqicn": 20,
+          "concentration": 14
+        }
+      },
+      {
+        "ts": "2023-06-08T01:00:00.000Z",
+        "aqius": 55,
+        "aqicn": 20,
+        "pm25": {
+          "aqius": 55,
+          "aqicn": 20,
+          "concentration": 14
+        }
+      },
+      {
+        "ts": "2023-06-08T00:00:00.000Z",
+        "aqius": 57,
+        "aqicn": 21,
+        "pm25": {
+          "aqius": 57,
+          "aqicn": 21,
+          "concentration": 15
+        }
+      },
+      {
+        "ts": "2023-06-07T23:00:00.000Z",
+        "aqius": 61,
+        "aqicn": 24,
+        "pm25": {
+          "aqius": 61,
+          "aqicn": 24,
+          "concentration": 17
+        }
+      },
+      {
+        "ts": "2023-06-07T22:00:00.000Z",
+        "aqius": 57,
+        "aqicn": 21,
+        "pm25": {
+          "aqius": 57,
+          "aqicn": 21,
+          "concentration": 15
+        }
+      },
+      {
+        "ts": "2023-06-07T21:00:00.000Z",
+        "aqius": 53,
+        "aqicn": 19,
+        "pm25": {
+          "aqius": 53,
+          "aqicn": 19,
+          "concentration": 13
+        }
+      },
+      {
+        "ts": "2023-06-07T20:00:00.000Z",
+        "aqius": 63,
+        "aqicn": 26,
+        "pm25": {
+          "aqius": 63,
+          "aqicn": 26,
+          "concentration": 18
+        }
+      },
+      {
+        "ts": "2023-06-07T19:00:00.000Z",
+        "aqius": 53,
+        "aqicn": 19,
+        "pm25": {
+          "aqius": 53,
+          "aqicn": 19,
+          "concentration": 13
+        }
+      },
+      {
+        "ts": "2023-06-07T18:00:00.000Z",
+        "aqius": 29,
+        "aqicn": 10,
+        "pm25": {
+          "aqius": 29,
+          "aqicn": 10,
+          "concentration": 7
+        }
+      },
+      {
+        "ts": "2023-06-07T17:00:00.000Z",
+        "aqius": 21,
+        "aqicn": 7,
+        "pm25": {
+          "aqius": 21,
+          "aqicn": 7,
+          "concentration": 5
+        }
+      },
+      {
+        "ts": "2023-06-07T16:00:00.000Z",
+        "aqius": 25,
+        "aqicn": 9,
+        "pm25": {
+          "aqius": 25,
+          "aqicn": 9,
+          "concentration": 6
+        }
+      },
+      {
+        "ts": "2023-06-07T15:00:00.000Z",
+        "aqius": 25,
+        "aqicn": 9,
+        "pm25": {
+          "aqius": 25,
+          "aqicn": 9,
+          "concentration": 6
+        }
+      },
+      {
+        "ts": "2023-06-07T14:00:00.000Z",
+        "aqius": 25,
+        "aqicn": 9,
+        "pm25": {
+          "aqius": 25,
+          "aqicn": 9,
+          "concentration": 6
+        }
+      },
+      {
+        "ts": "2023-06-07T13:00:00.000Z",
+        "aqius": 41,
+        "aqicn": 14,
+        "pm25": {
+          "aqius": 41,
+          "aqicn": 14,
+          "concentration": 10
+        }
+      },
+      {
+        "ts": "2023-06-07T12:00:00.000Z",
+        "aqius": 53,
+        "aqicn": 19,
+        "pm25": {
+          "aqius": 53,
+          "aqicn": 19,
+          "concentration": 13
+        }
+      },
+      {
+        "ts": "2023-06-07T11:00:00.000Z",
+        "aqius": 57,
+        "aqicn": 21,
+        "pm25": {
+          "aqius": 57,
+          "aqicn": 21,
+          "concentration": 15
+        }
+      },
+      {
+        "ts": "2023-06-07T10:00:00.000Z",
+        "aqius": 55,
+        "aqicn": 20,
+        "pm25": {
+          "aqius": 55,
+          "aqicn": 20,
+          "concentration": 14
+        }
+      },
+      {
+        "ts": "2023-06-07T09:00:00.000Z",
+        "aqius": 63,
+        "aqicn": 26,
+        "pm25": {
+          "aqius": 63,
+          "aqicn": 26,
+          "concentration": 18
+        }
+      }
+    ]
+  },
+  "coordinates": {
+    "latitude": 46.0952,
+    "longitude": 19.655
+  },
+  "name": "Studio Present",
+  "city": "Subotica"
+}
+

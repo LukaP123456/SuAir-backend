@@ -1,0 +1,253 @@
+{
+  "current": {
+    "ts": "2023-06-09T08:00:00.000Z",
+    "aqius": 61,
+    "aqicn": 24,
+    "pm25": {
+      "aqius": 61,
+      "aqicn": 24,
+      "concentration": 17
+    },
+    "mainus": "pm25",
+    "maincn": "pm25",
+    "condition": "Broken clouds",
+    "icon": "04d",
+    "humidity": 83,
+    "pressure": 1013,
+    "temperature": 18,
+    "wind": {
+      "speed": 1.18,
+      "direction": 141
+    }
+  },
+  "historical": {
+    "hourly": [
+      {
+        "ts": "2023-06-09T08:00:00.000Z",
+        "aqius": 61,
+        "aqicn": 24,
+        "pm25": {
+          "aqius": 61,
+          "aqicn": 24,
+          "concentration": 17
+        }
+      },
+      {
+        "ts": "2023-06-09T07:00:00.000Z",
+        "aqius": 50,
+        "aqicn": 17,
+        "pm25": {
+          "aqius": 50,
+          "aqicn": 17,
+          "concentration": 12
+        }
+      },
+      {
+        "ts": "2023-06-09T06:00:00.000Z",
+        "aqius": 53,
+        "aqicn": 19,
+        "pm25": {
+          "aqius": 53,
+          "aqicn": 19,
+          "concentration": 13
+        }
+      },
+      {
+        "ts": "2023-06-08T16:00:00.000Z",
+        "aqius": 95,
+        "aqicn": 47,
+        "pm25": {
+          "aqius": 95,
+          "aqicn": 47,
+          "concentration": 33
+        }
+      },
+      {
+        "ts": "2023-06-08T15:00:00.000Z",
+        "aqius": 91,
+        "aqicn": 44,
+        "pm25": {
+          "aqius": 91,
+          "aqicn": 44,
+          "concentration": 31
+        }
+      },
+      {
+        "ts": "2023-06-08T14:00:00.000Z",
+        "aqius": 97,
+        "aqicn": 49,
+        "pm25": {
+          "aqius": 97,
+          "aqicn": 49,
+          "concentration": 34
+        }
+      },
+      {
+        "ts": "2023-06-08T13:00:00.000Z",
+        "aqius": 97,
+        "aqicn": 49,
+        "pm25": {
+          "aqius": 97,
+          "aqicn": 49,
+          "concentration": 34
+        }
+      },
+      {
+        "ts": "2023-06-08T12:00:00.000Z",
+        "aqius": 61,
+        "aqicn": 24,
+        "pm25": {
+          "aqius": 61,
+          "aqicn": 24,
+          "concentration": 17
+        }
+      },
+      {
+        "ts": "2023-06-08T11:00:00.000Z",
+        "aqius": 82,
+        "aqicn": 39,
+        "pm25": {
+          "aqius": 82,
+          "aqicn": 39,
+          "concentration": 27
+        }
+      },
+      {
+        "ts": "2023-06-08T10:00:00.000Z",
+        "aqius": 88,
+        "aqicn": 43,
+        "pm25": {
+          "aqius": 88,
+          "aqicn": 43,
+          "concentration": 30
+        }
+      },
+      {
+        "ts": "2023-06-08T09:00:00.000Z",
+        "aqius": 95,
+        "aqicn": 47,
+        "pm25": {
+          "aqius": 95,
+          "aqicn": 47,
+          "concentration": 33
+        }
+      },
+      {
+        "ts": "2023-06-08T08:00:00.000Z",
+        "aqius": 82,
+        "aqicn": 39,
+        "pm25": {
+          "aqius": 82,
+          "aqicn": 39,
+          "concentration": 27
+        }
+      },
+      {
+        "ts": "2023-06-08T07:00:00.000Z",
+        "aqius": 74,
+        "aqicn": 33,
+        "pm25": {
+          "aqius": 74,
+          "aqicn": 33,
+          "concentration": 23
+        }
+      },
+      {
+        "ts": "2023-06-08T06:00:00.000Z",
+        "aqius": 61,
+        "aqicn": 24,
+        "pm25": {
+          "aqius": 61,
+          "aqicn": 24,
+          "concentration": 17
+        }
+      },
+      {
+        "ts": "2023-06-07T16:00:00.000Z",
+        "aqius": 29,
+        "aqicn": 10,
+        "pm25": {
+          "aqius": 29,
+          "aqicn": 10,
+          "concentration": 7
+        }
+      },
+      {
+        "ts": "2023-06-07T15:00:00.000Z",
+        "aqius": 37,
+        "aqicn": 13,
+        "pm25": {
+          "aqius": 37,
+          "aqicn": 13,
+          "concentration": 9
+        }
+      },
+      {
+        "ts": "2023-06-07T14:00:00.000Z",
+        "aqius": 45,
+        "aqicn": 16,
+        "pm25": {
+          "aqius": 45,
+          "aqicn": 16,
+          "concentration": 11
+        }
+      },
+      {
+        "ts": "2023-06-07T13:00:00.000Z",
+        "aqius": 57,
+        "aqicn": 21,
+        "pm25": {
+          "aqius": 57,
+          "aqicn": 21,
+          "concentration": 15
+        }
+      },
+      {
+        "ts": "2023-06-07T12:00:00.000Z",
+        "aqius": 59,
+        "aqicn": 23,
+        "pm25": {
+          "aqius": 59,
+          "aqicn": 23,
+          "concentration": 16
+        }
+      },
+      {
+        "ts": "2023-06-07T11:00:00.000Z",
+        "aqius": 74,
+        "aqicn": 33,
+        "pm25": {
+          "aqius": 74,
+          "aqicn": 33,
+          "concentration": 23
+        }
+      },
+      {
+        "ts": "2023-06-07T10:00:00.000Z",
+        "aqius": 63,
+        "aqicn": 26,
+        "pm25": {
+          "aqius": 63,
+          "aqicn": 26,
+          "concentration": 18
+        }
+      },
+      {
+        "ts": "2023-06-07T09:00:00.000Z",
+        "aqius": 65,
+        "aqicn": 27,
+        "pm25": {
+          "aqius": 65,
+          "aqicn": 27,
+          "concentration": 19
+        }
+      }
+    ]
+  },
+  "coordinates": {
+    "latitude": 46.099435,
+    "longitude": 19.670468
+  },
+  "name": "Maksima Gorkog",
+  "city": "Subotica"
+}

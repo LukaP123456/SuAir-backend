@@ -1,7 +1,7 @@
-const mongoose
-    = require('mongoose')
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
 
-const MeasurementSchema = new mongoose.Schema({
+const MeasurementSchema = new Schema({
     time: Date,
     test_message: String,
     pollution: {

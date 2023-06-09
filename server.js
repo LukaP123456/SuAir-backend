@@ -8,15 +8,15 @@ server.use(session({
 }));
 const cron = require("node-cron");
 //CRON JOB
-const getData = require('./Jobs/get_aqi_data_job')
+const getData = require('./Jobs/get_aqi_data_free')
 const passport = require('passport');
 const connectDB = require('./DB/connect')
 const InvalidToken = require('./app/Models/InvalidToken')
 require("dotenv").config();
 const InitializePassport = require('./passport-config')
 //ERROR HANDLERS CALL
-const notFoundMiddleware = require('./middleware/not-found');
-const errorHandlerMiddleware = require('./middleware/error-handler');
+const notFoundMiddleware = require('./middleware/not_found');
+const errorHandlerMiddleware = require('./middleware/error_handler');
 const AuthRoutes = require('./Routes/AuthRoutes')
 const ProtectedAuthRoutes = require('./Routes/ProtectedAuthRoutes')
 const DistrictRoutes = require('./Routes/DistrictRoutes')

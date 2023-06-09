@@ -1,4 +1,4 @@
-const AQdata = require('../Models/AQdata')
+const AQdata = require('../Models/AQdataFree')
 const {AsyncParser} = require('@json2csv/node');
 const fs = require('fs');
 

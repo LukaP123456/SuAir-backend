@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const {MongoClient} = require("mongodb");
 require('dotenv').config();
-const MeasurementModel = require('../app/Models/AQdata');
+const MeasurementModel = require('../app/Models/AQdataFree');
 
 const API_KEY = process.env.API_KEY;
 const CITY = process.env.CITY;
@@ -13,8 +13,7 @@ const LAT = '46.0994'
 const LON = '19.670468'
 const STATION_URL = `http://api.airvisual.com/v2/nearest_station?lat=${LAT}3&lon=${LON}&key=${API_KEY}`
 
-const DATABASE_URL = process.env.COMPASS_URI
-const client = new MongoClient(DATABASE_URL, {useUnifiedTopology: true});
+const client = new MongoClient(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
 
 const getData = async () => {
     try {

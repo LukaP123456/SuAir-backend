@@ -15,7 +15,7 @@ const sendEmail = async (email, subject, to, verificationLink) => {
                 pass: 'ayaweqowerfvzosp',
             },
         });
-        fs.readFile(__dirname + '/Views/verification-email.ejs', 'utf8', async (err, data) => {
+        fs.readFile(__dirname + '/Views/verification_email.ejs', 'utf8', async (err, data) => {
             if (err) {
                 console.log(err);
             } else {
