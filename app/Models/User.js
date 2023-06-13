@@ -32,7 +32,9 @@ const UserSchema = new mongoose.Schema({
     googleID: {
         type: String,
         default: null,
-    }
+    },
+    favoriteDay: [{type: mongoose.Types.ObjectId, ref: 'DayMeasurement'}]
+
 }, {collection: 'Users'})
 
 //const user = await User.create({...req.body})
