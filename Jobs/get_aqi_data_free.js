@@ -1,4 +1,3 @@
-const cron = require('node-cron');
 const {MongoClient} = require("mongodb");
 require('dotenv').config();
 const MeasurementModel = require('../app/Models/AQdataFree');
@@ -14,7 +13,6 @@ const LON = '19.670468'
 const STATION_URL = `http://api.airvisual.com/v2/nearest_station?lat=${LAT}3&lon=${LON}&key=${API_KEY}`
 
 const client = new MongoClient(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
-
 const getData = async () => {
     try {
         const response = await fetch(URL);
@@ -61,8 +59,9 @@ async function saveData(data) {
     }
 }
 
+getData()
 
-module.exports = getData
+// module.exports = getData
 
 
 
