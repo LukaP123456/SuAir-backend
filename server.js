@@ -8,7 +8,7 @@ server.use(session({
 }));
 const cron = require("node-cron");
 //CRON JOB
-const getData = require('./Jobs/get_aqi_data_free')
+const getData = require('./Jobs/deprecated/get_aqi_data_free')
 const passport = require('passport');
 const connectDB = require('./DB/connect')
 const InvalidToken = require('./app/Models/InvalidToken')

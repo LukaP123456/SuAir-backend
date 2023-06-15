@@ -2,7 +2,7 @@ const axios = require('axios');
 require("dotenv").config()
 const cheerio = require('cheerio');
 const mongoose = require('mongoose');
-const District = require('../app/Models/District')
+const District = require('../../app/Models/District')
 const uri = process.env.MONGO_COMPASS_URI;
 
 // Connect to MongoDB using Mongoose

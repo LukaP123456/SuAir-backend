@@ -1,6 +1,6 @@
 const {MongoClient} = require("mongodb");
 require('dotenv').config();
-const MeasurementModel = require('../app/Models/AQdataFree');
+const MeasurementModel = require('../../app/Models/deprecated/AQdataFree');
 
 const API_KEY = process.env.API_KEY;
 const CITY = process.env.CITY;

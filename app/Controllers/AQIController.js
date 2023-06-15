@@ -1,4 +1,4 @@
-const AQdata = require('../Models/AQdataFree')
+const AQdata = require('../Models/deprecated/AQdataFree')
 const {AsyncParser} = require('@json2csv/node');
 const fs = require('fs');
 

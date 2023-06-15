@@ -1,11 +1,11 @@
 require("dotenv").config()
 const mongoose = require("mongoose");
-const District = require('../app/Models/District')
+const District = require('../../app/Models/District')
 
 const uri = process.env.MONGO_COMPASS_URI;
 
 async function saveDistrictToDB() {
-    const districts = require('../districts.json')
+    const districts = require('../../districts.json')
     console.log(districts)
     // // Connect to MongoDB database
     mongoose.connect(uri, {

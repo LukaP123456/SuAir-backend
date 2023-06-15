@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const {MongoClient} = require("mongodb");
 require('dotenv').config();
-const BigMeasurementModel = require('../app/Models/AQDataBig');
+const SmallMeasurementModel = require('../../app/Models/deprecated/AQDataSmall');
 const tokens = [
     process.env.STUDIO_PRESENT_TOKEN,
     process.env.MAKSIMA_TOKEN,
@@ -9,9 +9,9 @@ const tokens = [
 ]
 const urls = tokens.map(token => process.env.COMMON_DEVICE_URL + token + '/validated-data')
 const data_files = [
-    '../test-data-json/stud-pres-big-data.json',
-    '../test-data-json/maksima-big-data.json',
-    '../test-data-json/desanka-big-data.json',
+    '../test-data-json/stud-pres-small-data.json',
+    '../test-data-json/maksima-small-data.json',
+    '../test-data-json/desanka-small-data.json',
 ]
 const getData = async () => {
     try {
@@ -27,6 +27,7 @@ const getData = async () => {
             data.push(await response.json())
             await saveData(data[i]);
         }
+
     } catch (error) {
         console.log(error);
     }
@@ -35,19 +36,23 @@ const getData = async () => {
 async function saveData(data) {
     const client = new MongoClient(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
     try {
+        console.log(data)
         await client.connect();
         // database and collection code goes here
         const db = client.db("iq-air-database");
         const coll = db.collection("iq-air-collection-ts");
         const timestamp = new Date().getTime();
         const time_added = new Date();
+        console.log(data.current)
         //Insert data
-        const newMeasurement = new BigMeasurementModel({
+        const newMeasurement = new SmallMeasurementModel({
             time: timestamp,
             test_message: "Data added at: " + time_added,
             current: data.current,
-            historical: data.historical,
-            name: data.name
+            historical: data.historical.hourly,
+            coordinates: data.coordinates,
+            name: data.name,
+            city: data.city
         });
         const result = await coll.insertOne(newMeasurement)
         console.log(result.ops[0])
