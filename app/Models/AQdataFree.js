@@ -18,6 +18,12 @@ const MeasurementSchema = new Schema({
         wd: Number,
         ic: String
     }
-}, {timestamps: true, collection: 'iq-air-collection-ts'});
+}, {
+    timeseries: {
+        timeField: 'time',
+        metaField: 'metadata',
+        granularity: 'hours',
+    },
+});
 
 module.exports = mongoose.model('Measurement', MeasurementSchema, 'iq-air-collection-ts')

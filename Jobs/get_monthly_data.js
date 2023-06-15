@@ -1,7 +1,17 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const DailyMeasurementModel = require('../app/Models/AQDataDaily');
-
+const MonthlyMeasurementModel = require('../app/Models/AQDataMonthly');
+const tokens = [
+    process.env.STUDIO_PRESENT_TOKEN,
+    process.env.MAKSIMA_TOKEN,
+    process.env.DESANKA_TOKEN,
+]
+const urls = tokens.map(token => process.env.COMMON_DEVICE_URL + token)
+const data_files = [
+    '../test-data-json/stud-pres-big-data.json',
+    '../test-data-json/maksima-big-data.json',
+    '../test-data-json/desanka-big-data.json',
+]
 const getData = async () => {
     try {
         let data = []
@@ -23,10 +33,10 @@ const getData = async () => {
 async function saveData(data) {
     try {
         await mongoose.connect(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
-        const timestamp = new Date().getTime();
-        const newDailyMeasurement = new DailyMeasurementModel({
+        const timestamp = new Date().toLocaleString()
+        const newDailyMeasurement = new MonthlyMeasurementModel({
             time: timestamp,
-            daily: data.historical.daily,
+            monthly: data.historical.monthly,
             name: data.name
         })
         try {
@@ -44,5 +54,4 @@ async function saveData(data) {
 }
 
 getData()
-
 // module.exports = getData

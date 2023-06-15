@@ -53,7 +53,7 @@ async function saveData(data) {
             },
         });
         const result = await coll.insertOne(newMeasurement)
-        console.log(result.ops[0])
+        console.log(result)
     } catch (error) {
         console.log(error)
     }
