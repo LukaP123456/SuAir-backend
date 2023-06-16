@@ -33,16 +33,13 @@ function InitializePassport() {
             passReqToCallback: true,
             scope: ['profile', 'email']
         },
-        function (req, accessToken, refreshToken, profile, done) {
-            //Find a user in the DB based on the users googleID, if the user exists the user will be logged in if the user doesn't exist
-            //he will be registered ie saved in the database
-            User.findOne({googleID: profile.id}, function (err, user) {
-                console.log("THE ERROR->", err)
+        async function (req, accessToken, refreshToken, profile, done) {
+            console.log(process.env.GOOGLE_CLIENT_SECRET)
+            try {
+                //Find a user in the DB based on the users googleID, if the user exists the user will be logged in if the user doesn't exist
+                //he will be registered ie saved in the database
+                const user = await User.findOne({googleID: profile.id});
                 console.log('THE USER->', user)
-                if (err) {
-                    console.log('THE ERROR->', err)
-                    return done(err)
-                }
                 if (!user) {
                     const user = new User({
                         name: profile.displayName,
@@ -50,17 +47,19 @@ function InitializePassport() {
                         googleID: profile.id,
                         verified: true
                     })
-                    user.save(function (err) {
-                        if (err) console.log(err);
-                        return done(err, user);
-                    });
+                    await user.save();
+                    return done(null, user);
                 } else {
                     //found user. Return
-                    return done(err, user);
+                    return done(null, user);
                 }
-            })
+            } catch (err) {
+                console.log('THE ERROR->', err)
+                return done(err);
+            }
         }
     ));
+
     passport.serializeUser(function (user, done) {
         console.log('serialize')
         done(null, user)
