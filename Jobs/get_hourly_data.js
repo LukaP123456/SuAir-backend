@@ -20,7 +20,7 @@ const getData = async () => {
             const response = require(data_files[i]);
             data.push(response)
             await saveData(data[i]);
-            //FETCH DATA FROM URL
+            //FETCH DATA FROM URL RUNS EVERY 48 HOURS BECAUSE HORULY HAS 48 OBJECTS
             // const response = await fetch(urls[i]);
             // data.push(await response.json())
             // await saveData(data[i]);
