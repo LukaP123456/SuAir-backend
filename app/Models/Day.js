@@ -7,13 +7,13 @@ const pmSchema = new Schema({
 })
 
 const MeasurementSchema = new Schema({
-    ts: Date,
-    pm1: Number,
-    pr: Number,
-    hm: Number,
-    tp: Number,
-    pm25: pmSchema,
-    pm10: pmSchema,
+    time_stamp: Date,
+    particular_matter_1: Number,
+    particular_matter_10: pmSchema,
+    particular_matter_25: pmSchema,
+    air_pressure: Number,
+    air_humidity: Number,
+    temperature: Number,
 });
 
 const DaySchema = new Schema(
