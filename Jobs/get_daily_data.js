@@ -32,7 +32,7 @@ const getData = async () => {
 
 async function saveData(data) {
     try {
-        await mongoose.connect(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
+        await mongoose.connect(process.env.MONGO_COMPASS_URI);
         const timestamp = new Date().toLocaleString()
         const newDailyMeasurement = new DailyMeasurementModel({
             time: timestamp,
