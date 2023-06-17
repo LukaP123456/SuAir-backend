@@ -17,13 +17,13 @@ const getData = async () => {
         let data = []
         for (let i = 0; i < data_files.length; i++) {
             //FETCH DATA FROM JSON FILES FOR TESTING
-            const response = require(data_files[i]);
-            data.push(response)
-            await saveData(data[i]);
-            //FETCH DATA FROM URL RUNS EVERY 48 HOURS BECAUSE HORULY HAS 48 OBJECTS
-            // const response = await fetch(urls[i]);
-            // data.push(await response.json())
+            // const response = require(data_files[i]);
+            // data.push(response)
             // await saveData(data[i]);
+            //FETCH DATA FROM URL RUNS EVERY 48 HOURS BECAUSE HORULY HAS 48 OBJECTS
+            const response = await fetch(urls[i]);
+            data.push(await response.json())
+            await saveData(data[i]);
         }
     } catch (error) {
         console.log('Error at getData: ', error);
@@ -32,7 +32,7 @@ const getData = async () => {
 
 async function saveData(data) {
     try {
-        await mongoose.connect(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
+        await mongoose.connect(process.env.MONGO_COMPASS_URI);
         const timestamp = new Date().toLocaleString()
         const newHourlyMeasurement = new HourlyMeasurementModel({
             time: timestamp,

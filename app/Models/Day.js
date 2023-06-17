@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const pmSchema = new Schema({
-    aqius: Number,
-    conc: Number
+    aqi_us_ranking: Number,
+    concentration: Number
 })
 
 const MeasurementSchema = new Schema({
