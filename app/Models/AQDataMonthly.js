@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const pmSchema = new Schema({
-    aqius: Number,
-    conc: Number
+    aqi_us_ranking: Number,
+    concentration: Number
 })
 const MeasurementSchema = new Schema({
     ts: Date,
@@ -17,15 +17,19 @@ const MeasurementSchema = new Schema({
 
 const MonthlySchema = new Schema(
     {
-        time: Date,
-        monthly: [{
-            type: MeasurementSchema,
-        }],
+        cron_job_timestamp: Date,
+        time_stamp: Date,
+        particular_matter_1: Number,
+        particular_matter_10: pmSchema,
+        particular_matter_25: pmSchema,
+        air_pressure: Number,
+        humidity: Number,
+        temperature: Number,
         name: String,
     },
     {
         timeseries: {
-            timeField: 'time',
+            timeField: 'cron_job_timestamp',
         },
     }
 );

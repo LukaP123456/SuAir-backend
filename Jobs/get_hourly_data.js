@@ -17,35 +17,51 @@ const getData = async () => {
         let data = []
         for (let i = 0; i < data_files.length; i++) {
             //FETCH DATA FROM JSON FILES FOR TESTING
-            // const response = require(data_files[i]);
-            // data.push(response)
-            // await saveData(data[i]);
-            //FETCH DATA FROM URL RUNS EVERY 48 HOURS BECAUSE HORULY HAS 48 OBJECTS
-            const response = await fetch(urls[i]);
-            data.push(await response.json())
-            await saveData(data[i]);
+            const response = require(data_files[i]);
+            data.push(response)
+            const name = data[i].name
+            await saveData(name, data[i].historical.hourly);
+            //FETCH DATA FROM URL RUNS EVERY 24 HOURS
+            // const response = await fetch(urls[i]);
+            // data.push(await response.json())
+            // await saveData(data[i],i);
         }
     } catch (error) {
         console.log('Error at getData: ', error);
     }
 }
 
-async function saveData(data) {
+async function saveData(name, data) {
     try {
         await mongoose.connect(process.env.MONGO_COMPASS_URI);
         const timestamp = new Date().toLocaleString()
-        const newHourlyMeasurement = new HourlyMeasurementModel({
-            time: timestamp,
-            hourly: data.historical.hourly,
-            name: data.name
-        })
-        try {
-            await newHourlyMeasurement.save();
-            console.log('saved data');
-        } catch (err) {
-            console.log(err);
+        let times_saved = 0
+        console.log(name)
+        for (let i = 0; i < data.length; i++) {
+            const newHourlyMeasurement = new HourlyMeasurementModel({
+                cron_job_timestamp: timestamp,
+                time_stamp: data[i].ts,
+                particular_matter_1: data[i].pm1,
+                particular_matter_10: {
+                    aqi_us_ranking: data[i].pm10.aqius,
+                    concentration: data[i].pm10.conc
+                },
+                particular_matter_25: {
+                    aqi_us_ranking: data[i].pm25.aqius,
+                    concentration: data[i].pm25.conc
+                }, air_pressure: data[i].pr,
+                humidity: data[i].hm,
+                temperature: data[i].tp,
+                name: name
+            })
+            try {
+                await newHourlyMeasurement.save();
+                times_saved++
+                console.log(times_saved);
+            } catch (err) {
+                console.log(err);
+            }
         }
-        // console.log(result)
     } catch (error) {
         console.log('Error at the start of saveData: ', error);
     } finally {

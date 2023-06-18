@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const Day = require('../app/Models/Day');
-const HourlyMeasurement = require('../app/Models/AQDataHourly')
+const Day = require('../../app/Models/deprecated/Day');
+const HourlyMeasurement = require('../../app/Models/AQDataHourly')
 
 const names = [
     'IT Subotica 2030 - V. Nazora',
@@ -11,6 +11,7 @@ const names = [
 
 //THIS FUNCTION NEEDS TO RUN EVERY 24H
 //Fetches data from the DB and creates a Day object in the DB based on the time series data retrieved
+//Creates a day object in the DB from the hourly data of the now() -1 day ( yesterday)
 const createDay = async () => {
     try {
         const current_date = new Date().toLocaleString()
@@ -63,7 +64,7 @@ async function getDataByNameAndDate(name) {
                                     as: "hourlyItem",
                                     cond: {
                                         $and: [
-                                            {$eq: [{$dayOfMonth: "$$hourlyItem.ts"}, now.getDate()]},
+                                            {$eq: [{$dayOfMonth: "$$hourlyItem.ts"}, now.getDate() - 1]},//get data for the previous day
                                             {$eq: [{$month: "$$hourlyItem.ts"}, now.getMonth() + 1]},
                                             {$eq: [{$year: "$$hourlyItem.ts"}, now.getFullYear()]}
                                         ]
@@ -100,3 +101,6 @@ async function getDataByNameAndDate(name) {
 createDay()
 
 // module.exports = createDay
+//TODO: cuvaj samo time series podatke. Kada user klikne na neki day,hour month kao favourite to ce se sacuvati u user dokumentu da je kliknuo na taj dan itd.
+// U time series nemoj cuvati array objekata nego svaki objekat neka bude jedan dokument i onda imas posebnu kolekciju za hours,days i months koje su time series i neces imati obicne kolekcije za ovo jer ce se cuvati id od objekta u user dokumentu
+// U sustini nece trebati create_day_job i slicni jer ce sve biti time series.
