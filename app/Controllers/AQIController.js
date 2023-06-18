@@ -1,6 +1,7 @@
 const AQdata = require('../Models/deprecated/AQdataFree')
 const {AsyncParser} = require('@json2csv/node');
 const fs = require('fs');
+const User = require('../Models/User')
 
 async function generateCSV(aqData) {
     const fields = [
@@ -75,8 +76,63 @@ const getXInTime = async (req, res) => {
         console.log(error)
     }
 }
-
+const AddFavHour = async (req, res) => {
+    addFav(req, res, 'favoriteHour'); // update favoriteHour field
+}
+const AddFavDay = async (req, res) => {
+    addFav(req, res, 'favoriteDay'); // update favoriteHour field
+}
+const AddFavMonth = async (req, res) => {
+    addFav(req, res, 'favoriteMonth'); // update favoriteHour field
+}
+const addFav = async (req, res, field) => {
+    try {
+        const item_id = req.body.itemID;
+        const bearer_token = req.headers['authorization'];
+        const payload = bearer_token.split('.')[1];
+        const decoded_payload = Buffer.from(payload, 'base64').toString();
+        const user_data = JSON.parse(decoded_payload);
+        const user_id = user_data.id;
+        const update = {$push: {[field]: item_id}};
+        const user = await User.findByIdAndUpdate(user_id, update, {new: true});
+        res.send(user);
+    } catch (error) {
+        console.log(error);
+    }
+}
+const RemoveFavHour = async (req, res) => {
+    removeFav(req, res, 'favoriteHour'); // update favoriteHour field
+}
+const RemoveFavDay = async (req, res) => {
+    removeFav(req, res, 'favoriteDay'); // update favoriteHour field
+}
+const RemoveFavMonth = async (req, res) => {
+    removeFav(req, res, 'favoriteMonth'); // update favoriteHour field
+}
+const removeFav = async (req, res, field) => {
+    try {
+        const item_id = req.body.itemID;
+        const bearer_token = req.headers['authorization'];
+        const payload = bearer_token.split('.')[1];
+        const decoded_payload = Buffer.from(payload, 'base64').toString();
+        const user_data = JSON.parse(decoded_payload);
+        const user_id = user_data.id;
+        const update = {$pullAll: {[field]: item_id}};
+        const user = await User.findByIdAndUpdate(user_id, update, {new: true});
+        res.send(user);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 module.exports = {
-    getAll, xofAllTime, getXInTime
+    getAll,
+    xofAllTime,
+    getXInTime,
+    AddFavHour,
+    AddFavDay,
+    AddFavMonth,
+    RemoveFavHour,
+    RemoveFavDay,
+    RemoveFavMonth
 }

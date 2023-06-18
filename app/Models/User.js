@@ -33,8 +33,9 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: null,
     },
-    favoriteDay: [{type: mongoose.Types.ObjectId, ref: 'DayMeasurement'}]
-
+    favoriteHour: [{type: mongoose.Types.ObjectId, ref: 'HourMeasurement'}],
+    favoriteDay: [{type: mongoose.Types.ObjectId, ref: 'DayMeasurement'}],
+    favoriteMonth: [{type: mongoose.Types.ObjectId, ref: 'MonthMeasurement'}],
 }, {collection: 'Users'})
 
 //const user = await User.create({...req.body})

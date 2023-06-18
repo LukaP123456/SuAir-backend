@@ -113,6 +113,10 @@ server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 // -------------------------------------ROUTES END-------------------------------------
 
+const listEndpoints = require('express-list-endpoints');
+// define your routes here
+// console.log(listEndpoints(server));
+
 server.use(notFoundMiddleware);
 server.use(errorHandlerMiddleware);
 const port = process.env.PORT
