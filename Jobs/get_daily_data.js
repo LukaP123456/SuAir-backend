@@ -21,7 +21,7 @@ const getData = async () => {
             data.push(response)
             const name = data[i].name
             await saveData(name, data[i].historical.daily, i);
-            //FETCH DATA FROM URL
+            //FETCH DATA FROM URL Should run every 29 days
             // const response = await fetch(urls[i]);
             // data.push(await response.json())
             // await saveData(data[i]);

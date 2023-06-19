@@ -21,7 +21,7 @@ const getData = async () => {
             data.push(response)
             const name = data[i].name
             await saveData(name, data[i].historical.hourly);
-            //FETCH DATA FROM URL RUNS EVERY 24 HOURS
+            //FETCH DATA FROM URL RUNS EVERY 48 hours
             // const response = await fetch(urls[i]);
             // data.push(await response.json())
             // await saveData(data[i],i);
@@ -35,8 +35,7 @@ async function saveData(name, data) {
     try {
         await mongoose.connect(process.env.MONGO_COMPASS_URI);
         const timestamp = new Date().toLocaleString()
-        let times_saved = 0
-        console.log(name)
+        let times_saved = ""
         for (let i = 0; i < data.length; i++) {
             const newHourlyMeasurement = new HourlyMeasurementModel({
                 cron_job_timestamp: timestamp,
@@ -56,12 +55,13 @@ async function saveData(name, data) {
             })
             try {
                 await newHourlyMeasurement.save();
-                times_saved++
-                console.log(times_saved);
+                times_saved += i + " "
             } catch (err) {
                 console.log(err);
             }
         }
+        console.log(name)
+        console.log(times_saved);
     } catch (error) {
         console.log('Error at the start of saveData: ', error);
     } finally {

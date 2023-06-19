@@ -22,7 +22,7 @@ const getData = async () => {
             data.push(response)
             const name = data[i].name
             await saveData(name, data[i].historical.monthly);
-            //FETCH DATA FROM URL
+            //FETCH DATA FROM URL Should run every 3 months
             // const response = await fetch(urls[i]);
             // data.push(await response.json())
             // await saveData(data[i]);
