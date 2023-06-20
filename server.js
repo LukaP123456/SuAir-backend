@@ -8,7 +8,7 @@ server.use(session({
 }));
 const cron = require("node-cron");
 //CRON JOB
-const getData = require('./Jobs/deprecated/get_aqi_data_free')
+
 const passport = require('passport');
 const connectDB = require('./DB/connect')
 const InvalidToken = require('./app/Models/InvalidToken')
@@ -45,12 +45,6 @@ server.use(
     })
 )
 server.use(helmet())
-
-// server.use(
-//     cors({origin: ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:4000', 'http://localhost:63342/praksa/node_test/fetch-test/fetch.html?_ijt=7j2ivutrqk9a962dg0vbhm1rku&_ij_reload=RELOAD_ON_SAVE']})
-// );
-// server.use(cors())
-
 const corsOptions = {
     origin: 'http://localhost:3001',//<-- FRONTEND URL GOES HERE
     credentials: true,            //access-control-allow-credentials:true
@@ -58,8 +52,6 @@ const corsOptions = {
 }
 
 server.use(cors(corsOptions))
-
-
 server.use(xss())
 server.use(flash())
 // -------------------------------------MIDDLEWARES END-------------------------------------
@@ -112,10 +104,6 @@ server.get('/logout', (req, res) => {
 server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 // -------------------------------------ROUTES END-------------------------------------
-
-const listEndpoints = require('express-list-endpoints');
-// define your routes here
-// console.log(listEndpoints(server));
 
 server.use(notFoundMiddleware);
 server.use(errorHandlerMiddleware);

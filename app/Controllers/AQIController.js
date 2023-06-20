@@ -82,88 +82,133 @@ const getXInTime = async (req, res) => {
 
 const search = async (req, res) => {
     try {
-        const {
-            model_name,
-            name,
-            min_air_pressure,
-            max_air_pressure,
-            min_humidity,
-            max_humidity,
-            min_temperature,
-            max_temperature,
-            min_particular_matter_1,
-            max_particular_matter_1,
-            min_particular_matter_25_ranking,
-            max_particular_matter_25_ranking,
-            min_particular_matter_25_concentration,
-            max_particular_matter_25_concentration,
-            min_particular_matter_10_concentration,
-            max_particular_matter_10_concentration
-        } = req.query
-
-        console.log(model_name)
-        // Build the query object
+        const query_mapping = {
+            name: {field: 'name'},
+            min_air_pressure: {field: 'air_pressure', operator: '$gte'},
+            max_air_pressure: {field: 'air_pressure', operator: '$lte'},
+            min_humidity: {field: 'humidity', operator: '$gte'},
+            max_humidity: {field: 'humidity', operator: '$lte'},
+            min_temperature: {field: 'temperature', operator: '$gte'},
+            max_temperature: {field: 'temperature', operator: '$lte'},
+            min_particular_matter_1: {field: 'particular_matter_1', operator: '$gte'},
+            max_particular_matter_1: {field: 'particular_matter_1', operator: '$lte'},
+            min_particular_matter_10_ranking: {field: 'particular_matter_10.aqi_us_ranking', operator: '$gte'},
+            max_particular_matter_10_ranking: {field: 'particular_matter_10.aqi_us_ranking', operator: '$lte'},
+            min_particular_matter_25_ranking: {field: 'particular_matter_25.aqi_us_ranking', operator: '$gte'},
+            max_particular_matter_25_ranking: {field: 'particular_matter_25.aqi_us_ranking', operator: '$lte'},
+            min_particular_matter_10_concentration: {field: 'particular_matter_10.concentration', operator: '$gte'},
+            max_particular_matter_10_concentration: {field: 'particular_matter_10.concentration', operator: '$lte'},
+            min_particular_matter_25_concentration: {field: 'particular_matter_25.concentration', operator: '$gte'},
+            max_particular_matter_25_concentration: {field: 'particular_matter_25.concentration', operator: '$lte'}
+        };
+        const model_name_mapping = {
+            Hour: 'HourlyMeasurement',
+            Day: 'DailyMeasurement'
+        };
+        const model_name = model_name_mapping[req.query.model_name] || 'MonthlyMeasurement';
         const mongo_query = {};
-        if (name) {
-            mongo_query.name = name;
+        for (const [key, value] of Object.entries(req.query)) {
+            const mapping = query_mapping[key];
+            if (mapping) {
+                if (key === 'name') {
+                    mongo_query[mapping.field] = {$regex: value, $options: 'i'};
+                } else if (mapping.operator) {
+                    mongo_query[mapping.field] = {...mongo_query[mapping.field], [mapping.operator]: value};
+                } else {
+                    mongo_query[mapping.field] = value;
+                }
+            }
         }
-        if (min_air_pressure) {
-            mongo_query.humidity = {$gte: min_air_pressure};
-        }
-        if (max_air_pressure) {
-            mongo_query.humidity = {...mongo_query.humidity, $lte: max_air_pressure};
-        }
-        if (min_humidity) {
-            mongo_query.humidity = {$gte: min_humidity};
-        }
-        if (max_humidity) {
-            mongo_query.humidity = {...mongo_query.humidity, $lte: max_humidity};
-        }
-        if (min_temperature) {
-            mongo_query.temperature = {$gte: min_temperature};
-        }
-        if (max_temperature) {
-            mongo_query.temperature = {...mongo_query.temperature, $lte: max_temperature};
-        }
-        if (min_particular_matter_1) {
-            mongo_query.particular_matter_1 = {$gte: min_particular_matter_1};
-        }
-        if (max_particular_matter_1) {
-            mongo_query.particular_matter_1 = {...mongo_query.particular_matter_1, $lte: max_particular_matter_1};
-        }
-        if (min_particular_matter_25_ranking) {
-            mongo_query["particular_matter_25.aqi_us_ranking"] = {$gte: min_particular_matter_25_ranking};
-        }
-        if (max_particular_matter_25_ranking) {
-            mongo_query["particular_matter_25.aqi_us_ranking"] = {
-                ...mongo_query["particular_matter_25.aqi_us_ranking"],
-                $lte: max_particular_matter_25_ranking
-            };
-        }
-        if (min_particular_matter_25_concentration) {
-            mongo_query["particular_matter_25.concentration"] = {$gte: min_particular_matter_25_concentration};
-        }
-        if (max_particular_matter_25_concentration) {
-            mongo_query["particular_matter_25.concentration"] = {
-                ...mongo_query["particular_matter_25.concentration"],
-                $lte: max_particular_matter_25_concentration
-            };
-        }
-        if (min_particular_matter_10_concentration) {
-            mongo_query["particular_matter_10.concentration"] = {$gte: min_particular_matter_10_concentration};
-        }
-        if (max_particular_matter_10_concentration) {
-            mongo_query["particular_matter_10.concentration"] = {
-                ...mongo_query["particular_matter_10.concentration"],
-                $lte: max_particular_matter_10_concentration
-            };
-        }
+        console.log(mongo_query)
+        // const {
+        //     model_name,
+        //     name,
+        //     min_air_pressure,
+        //     max_air_pressure,
+        //     min_humidity,
+        //     max_humidity,
+        //     min_temperature,
+        //     max_temperature,
+        //     min_particular_matter_1,
+        //     max_particular_matter_1,
+        //     min_particular_matter_25_ranking,
+        //     max_particular_matter_25_ranking,
+        //     min_particular_matter_25_concentration,
+        //     max_particular_matter_25_concentration,
+        //     min_particular_matter_10_concentration,
+        //     max_particular_matter_10_concentration,
+        //     min_particular_matter_10_ranking,
+        //     max_particular_matter_10_ranking,
+        // } = req.query
+        // // Build the query object
+        // const mongo_query = {};
+        // if (name) {
+        //     mongo_query.name = {$regex: name, $options: 'i'};
+        // }
+        // if (min_air_pressure) {
+        //     mongo_query.air_pressure = {$gte: min_air_pressure};
+        // }
+        // if (max_air_pressure) {
+        //     mongo_query.air_pressure = {...mongo_query.air_pressure, $lte: max_air_pressure};
+        // }
+        // if (min_humidity) {
+        //     mongo_query.humidity = {$gte: min_humidity};
+        // }
+        // if (max_humidity) {
+        //     mongo_query.humidity = {...mongo_query.humidity, $lte: max_humidity};
+        // }
+        // if (min_temperature) {
+        //     mongo_query.temperature = {$gte: min_temperature};
+        // }
+        // if (max_temperature) {
+        //     mongo_query.temperature = {...mongo_query.temperature, $lte: max_temperature};
+        // }
+        // if (min_particular_matter_1) {
+        //     mongo_query.particular_matter_1 = {$gte: min_particular_matter_1};
+        // }
+        // if (max_particular_matter_1) {
+        //     mongo_query.particular_matter_1 = {...mongo_query.particular_matter_1, $lte: max_particular_matter_1};
+        // }
+        // if (min_particular_matter_25_ranking) {
+        //     mongo_query["particular_matter_25.aqi_us_ranking"] = {$gte: min_particular_matter_25_ranking};
+        // }
+        // if (max_particular_matter_25_ranking) {
+        //     mongo_query["particular_matter_25.aqi_us_ranking"] = {
+        //         ...mongo_query["particular_matter_25.aqi_us_ranking"],
+        //         $lte: max_particular_matter_25_ranking
+        //     };
+        // }
+        // if (min_particular_matter_25_concentration) {
+        //     mongo_query["particular_matter_25.concentration"] = {$gte: min_particular_matter_25_concentration};
+        // }
+        // if (max_particular_matter_25_concentration) {
+        //     mongo_query["particular_matter_25.concentration"] = {
+        //         ...mongo_query["particular_matter_25.concentration"],
+        //         $lte: max_particular_matter_25_concentration
+        //     };
+        // }
+        // if (min_particular_matter_10_concentration) {
+        //     mongo_query["particular_matter_10.concentration"] = {$gte: min_particular_matter_10_concentration};
+        // }
+        // if (max_particular_matter_10_concentration) {
+        //     mongo_query["particular_matter_10.concentration"] = {
+        //         ...mongo_query["particular_matter_10.concentration"],
+        //         $lte: max_particular_matter_10_concentration
+        //     };
+        // }
+        // if (min_particular_matter_10_ranking) {
+        //     mongo_query["particular_matter_10.aqi_us_ranking"] = {$gte: min_particular_matter_10_ranking};
+        // }
+        // if (max_particular_matter_10_ranking) {
+        //     mongo_query["particular_matter_10.aqi_us_ranking"] = {
+        //         ...mongo_query["particular_matter_10.aqi_us_ranking"],
+        //         $lte: max_particular_matter_10_ranking
+        //     };
+        // }
         // Perform the search
         const Model = mongoose.model(model_name);
-        console.log(Model)
         // Use the Model to perform a search
         const results = await Model.find(mongo_query);
-        console.log(mongo_query)
         res.send(results);
     } catch (error) {
         console.log(error)
