@@ -7,16 +7,17 @@ const HourlyMeasurement = require('../Models/AQDataHourly')
 const mongoose = require('mongoose')
 
 async function generateCSV(aqData) {
+    console.log(aqData)
     const fields = [
-        {label: 'AQI Value', value: 'pollution.aqius'},
-        {label: 'Main US pollutant', value: 'pollution.mainus'},
-        {label: 'Temperature', value: 'weather.tp'},
-        {label: 'Time of measurement', value: 'time'},
-        {label: 'Air temperature in celsius', value: 'weather.tp'},
-        {label: 'Air pressure', value: 'weather.pr'},
-        {label: 'Air humidity', value: 'weather.hu'},
-        {label: 'Wind speed', value: 'weather.ws'},
-        {label: 'Wind direction', value: 'weather.wd'},
+        {label: 'Particular matter 1 concentration', value: 'particular_matter_1'},
+        {label: 'Particular matter 10 concentration', value: 'particular_matter_10.concentration'},
+        {label: 'Particular matter 10 AQI US ranking', value: 'particular_matter_10.aqi_us_ranking'},
+        {label: 'Particular matter 25 concentration', value: 'particular_matter_25.concentration'},
+        {label: 'Particular matter 25 AQI US ranking', value: 'particular_matter_25.aqi_us_ranking'},
+        {label: 'Time of measurement', value: 'time_stamp'},
+        {label: 'Air temperature in celsius', value: 'temperature'},
+        {label: 'Air pressure', value: 'air_pressure'},
+        {label: 'Air humidity', value: 'humidity'},
     ];
     const parser = new AsyncParser({fields});
     const data = await parser.parse(aqData).promise();
@@ -28,29 +29,34 @@ async function generateCSV(aqData) {
 const getAll = async (req, res) => {
     try {
         const generate = req.body.genertateCSV === 'true';
-        const aqData = await AQdata.find({});
+        const model_name_mapping = {
+            Hour: 'HourlyMeasurement',
+            Day: 'DailyMeasurement'
+        };
+        const model_name = model_name_mapping[req.body.model_name] || 'MonthlyMeasurement';
+        const Model = mongoose.model(model_name);
+        // Use the Model to perform a search
+        const results = await Model.find({});
         if (generate) {
-            await generateCSV(aqData);
+            await generateCSV(results);
         }
-        res.send(aqData)
+        res.send(results)
     } catch (error) {
         console.log(error)
     }
 }
 const xofAllTime = async (req, res) => {
     try {
-        const worst = req.body.worst === 'true';
-        const generate = req.body.generateCSV === 'true'
-        AQdata.find()
-            .sort(worst ? '-pollution.aqius' : 'pollution.aqius')
-            .limit(1)
-            .exec(async (error, data) => {
-                if (generate) {
-                    await generateCSV(data);
-                }
-                res.send(data)
-            });
-
+        const model_name_mapping = {
+            Hour: 'HourlyMeasurement',
+            Day: 'DailyMeasurement'
+        };
+        const model_name = model_name_mapping[req.body.model_name] || 'MonthlyMeasurement';
+        const Model = mongoose.model(model_name);
+        const results = await Model.find()
+            .sort({'particular_matter_10.aqi_us_ranking': -1, 'particular_matter_25.aqi_us_ranking': -1})
+            .limit(1);
+        res.send(results)
     } catch (error) {
         console.log(error)
     }
