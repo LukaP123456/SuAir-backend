@@ -14,7 +14,8 @@ https://dark-desert-588371.postman.co/workspace/My-Workspace~1c8ec03f-a7dd-436f-
 npm install
 ```
 
-First timme to get some test data run the cron job with the following commands:
+You need a mongo database specifically mongoDB compass in order to run this code.
+First time to get some test data run the cron job with the following commands:
 These commands will load the data from the json files.
 
 ```
