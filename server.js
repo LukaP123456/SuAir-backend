@@ -1,11 +1,19 @@
 const express = require('express');
 const server = express();
-const session = require('express-session')
-server.use(session({
-    secret: 'cat',
-    resave: false,
-    saveUninitialized: true
-}));
+const cookieSession = require('cookie-session')
+server.use(cookieSession({
+    name: 'session',
+    keys: ['cat'],
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+// const session = require('express-session')
+//Code below causes a memory leak when it runs on server?
+// server.use(session({
+//     secret: 'cat',
+//     resave: false,
+//     saveUninitialized: true
+// }));
 const cron = require("node-cron");
 //CRON JOB
 
