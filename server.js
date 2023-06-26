@@ -52,7 +52,7 @@ server.use(
 )
 server.use(helmet())
 const corsOptions = {
-    origin: 'http://localhost:3001',//<-- FRONTEND URL GOES HERE
+    origin: ['http://localhost:3001', 'http://localhost:3000'],//<-- FRONTEND URL GOES HERE
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
