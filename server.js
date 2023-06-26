@@ -4,6 +4,9 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo');
 const cron = require("node-cron");
 //CRON JOB
+const get_hourly_data = require('Jobs/get_hourly_data')
+const get_daily_data = require('Jobs/get_daily_data')
+const get_monthly_data = require('Jobs/get_monthly_data')
 const passport = require('passport');
 const connectDB = require('./DB/connect')
 const InvalidToken = require('./app/Models/InvalidToken')
@@ -124,4 +127,7 @@ const start = async () => {
 
 start();
 //CRON JOBS
-// cron.schedule('0 * * * *', getData);
+cron.schedule('* * * * *', () => {
+    get_hourly_data()
+    console.log('running a task every minute');
+});

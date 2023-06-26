@@ -14,7 +14,7 @@ const data_files = [
     '../test-data-json/maksima-big-data.json',
     '../test-data-json/desanka-big-data.json',
 ]
-const getData = async () => {
+const get_daily_data = async () => {
     try {
         let data = []
         for (let i = 0; i < data_files.length; i++) {
@@ -72,5 +72,5 @@ async function saveData(name, data) {
     }
 }
 
-getData()
-// module.exports = getData
+// getData()
+module.exports = get_daily_data
