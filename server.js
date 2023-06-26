@@ -146,11 +146,11 @@ cron.schedule('0 0 */2 * *', () => {
 //         lastExecution = now;
 //     }
 // });
-cron.schedule('0 0 1 * *', () => {
+cron.schedule('0 1 1 * *', () => {
     get_daily_data()
     console.log('running a task on the first day of every month at midnight');
 });
-cron.schedule('0 0 1 */3 *', () => {
+cron.schedule('0 2 1 */3 *', () => {
     get_monthly_data()
     console.log('Running every 48 hours');
 });
