@@ -1,22 +1,8 @@
 const express = require('express');
 const server = express();
-const cookieSession = require('cookie-session')
-server.use(cookieSession({
-    name: 'session',
-    keys: ['cat'],
-    // Cookie Options
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-}))
-// const session = require('express-session')
-//Code below causes a memory leak when it runs on server?
-// server.use(session({
-//     secret: 'cat',
-//     resave: false,
-//     saveUninitialized: true
-// }));
+const session = require('express-session')
 const cron = require("node-cron");
 //CRON JOB
-
 const passport = require('passport');
 const connectDB = require('./DB/connect')
 const InvalidToken = require('./app/Models/InvalidToken')
@@ -42,6 +28,12 @@ const rateLimiter = require('express-rate-limit')
 // -------------------------------------MIDDLEWARES START-------------------------------------
 server.use(express.json()); // for parsing JSON bodies
 server.use(express.urlencoded({extended: true})); // for parsing URL-encoded bodies
+// Code below causes a memory leak when it runs on server?
+server.use(session({
+    secret: 'cat',
+    resave: false,
+    saveUninitialized: true
+}));
 server.use(passport.initialize());
 server.use(passport.session());
 //RATE LIMITER, LIMIT NO OF API CALLS
