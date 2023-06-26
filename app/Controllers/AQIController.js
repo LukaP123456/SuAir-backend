@@ -4,6 +4,7 @@ const fs = require('fs');
 const MonthlyMeasurement = require('../Models/AQDataMonthly')
 const DailyMeasurement = require('../Models/AQDataDaily')
 const HourlyMeasurement = require('../Models/AQDataHourly')
+const User = require('../Models/User')
 const mongoose = require('mongoose')
 
 async function generateCSV(aqData) {
@@ -177,36 +178,62 @@ const AddRemoveFavorite = async (req, res) => {
 }
 const removeFav = async (req, res, field) => {
     try {
+        const google_id = req.get('googleID')
+        console.log(google_id)
         const item_id = req.body.itemID;
-        const bearer_token = req.headers['authorization'];
-        const payload = bearer_token.split('.')[1];
-        const decoded_payload = Buffer.from(payload, 'base64').toString();
-        const user_data = JSON.parse(decoded_payload);
-        const user_id = user_data.id;
-        if (typeof item_id === 'string') {
-            const update = {$pull: {[field]: item_id}};
-            const user = await User.findByIdAndUpdate(user_id, update, {new: true});
-            res.send(user);
+        if (google_id) {
+            if (typeof item_id === 'string') {
+                const update = {$pull: {[field]: item_id}};
+                const user = await User.findByIdAndUpdate(google_id, update, {new: true});
+                res.send(user);
+            } else {
+                const update = {$pullAll: {[field]: item_id}};
+                const user = await User.findByIdAndUpdate(google_id, update, {new: true});
+                res.send(user);
+            }
         } else {
-            const update = {$pullAll: {[field]: item_id}};
-            const user = await User.findByIdAndUpdate(user_id, update, {new: true});
-            res.send(user);
+            const bearer_token = req.headers['authorization'];
+            const payload = bearer_token.split('.')[1];
+            const decoded_payload = Buffer.from(payload, 'base64').toString();
+            const user_data = JSON.parse(decoded_payload);
+            const user_id = user_data.id;
+            if (typeof item_id === 'string') {
+                const update = {$pull: {[field]: item_id}};
+                const user = await User.findByIdAndUpdate(user_id, update, {new: true});
+                res.send(user);
+            } else {
+                const update = {$pullAll: {[field]: item_id}};
+                const user = await User.findByIdAndUpdate(user_id, update, {new: true});
+                res.send(user);
+            }
         }
     } catch (error) {
         console.log(error);
     }
 }
+
 const addFav = async (req, res, field) => {
     try {
+        //TODO: When a user registers with google auth the backend will send users id to the front. This id needs to be saved
+        // in somewhere on the front. This value is then sent as googleID even though actually it's just users ID from the DB
+        // IF the id is sent as googleID then that means the user used google auth to register, if google_id is false then that means
+        // user used regular registration.
+        const google_id = req.get('googleID')
         const item_id = req.body.itemID;
-        const bearer_token = req.headers['authorization'];
-        const payload = bearer_token.split('.')[1];
-        const decoded_payload = Buffer.from(payload, 'base64').toString();
-        const user_data = JSON.parse(decoded_payload);
-        const user_id = user_data.id;
-        const update = {$push: {[field]: item_id}};
-        const user = await User.findByIdAndUpdate(user_id, update, {new: true});
-        res.send(user);
+        if (google_id) {
+            const update = {$push: {[field]: item_id}};
+            const user = await User.findByIdAndUpdate(google_id, update, {new: true});
+            res.send(user);
+        } else {
+            const bearer_token = req.headers['authorization'];
+            const payload = bearer_token.split('.')[1];
+            const decoded_payload = Buffer.from(payload, 'base64').toString();
+            const user_data = JSON.parse(decoded_payload);
+            const user_id = user_data.id;
+            const update = {$push: {[field]: item_id}};
+            const user = await User.findByIdAndUpdate(user_id, update, {new: true});
+            res.send(user);
+        }
     } catch (error) {
         console.log(error);
     }

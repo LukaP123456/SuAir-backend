@@ -35,7 +35,7 @@ server.use(express.json()); // for parsing JSON bodies
 server.use(express.urlencoded({extended: true})); // for parsing URL-encoded bodies
 // Code below causes a memory leak when it runs on server?
 server.use(session({
-    secret: 'cat',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({mongoUrl: process.env.MONGO_COMPASS_URI})
@@ -94,10 +94,10 @@ server.get('/protected', isLoggedIn, (req, res) => {
     res.send(`Hello ${req.user.name}`)
 })
 server.get('/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}))
-server.get('/google/callback', passport.authenticate('google', {
-    successRedirect: '/protected',
-    failureRedirect: '/auth/failure',
-}))
+server.get('/google/callback', passport.authenticate('google', {failureRedirect: '/auth/failure'}), (req, res) => {
+    // Successful authentication
+    res.json({user_id: req.user.id});
+});
 server.get('/auth/failure', (req, res) => {
     res.send('Something went wrong')
 })
@@ -128,6 +128,18 @@ const start = async () => {
 
 start();
 //CRON JOBS
+cron.schedule('0 * * * *', () => {
+    get_hourly_data(true)
+    console.log('Running every 48 hours');
+});
+cron.schedule('15 * * * *', () => {
+    get_daily_data(true)
+    console.log('Running every 48 hours');
+});
+cron.schedule('25 * * * *', () => {
+    get_monthly_data(true)
+    console.log('Running every 48 hours');
+});
 cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
     console.log('Running every 48 hours');

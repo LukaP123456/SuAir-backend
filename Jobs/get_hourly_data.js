@@ -14,29 +14,37 @@ const data_files = [
     '../test-data-json/maksima-big-data.json',
     '../test-data-json/desanka-big-data.json',
 ]
-const get_hourly_data = async () => {
+const get_hourly_data = async (test) => {
     try {
         let data = []
-        for (let i = 0; i < data_files.length; i++) {
-            //FETCH DATA FROM JSON FILES FOR TESTING
-            // const response = require(data_files[i]);
-            // data.push(response)
-            // const name = data[i].name
-            // await saveData(name, data[i].historical.hourly);
-            //FETCH DATA FROM URL RUNS EVERY 48 hours
-            const response = await axios.get(urls[i]);
-            data.push(response.data);
-            const name = data[i].name
-            await saveData(name, data[i].historical.hourly);
+        await mongoose.connect(process.env.MONGO_COMPASS_URI);
+        if (test) {
+            console.log('==============TEST HOURLY DATA============')
+            for (let i = 0; i < data_files.length; i++) {
+                //FETCH DATA FROM JSON FILES FOR TESTING
+                const response = require(data_files[i]);
+                data.push(response)
+                const name = data[i].name
+                await saveData(name, data[i].historical.hourly);
+            }
+        } else {
+            for (let i = 0; i < data_files.length; i++) {
+                //FETCH DATA FROM URL RUNS EVERY 48 hours
+                const response = await axios.get(urls[i]);
+                data.push(response.data);
+                const name = data[i].name
+                await saveData(name, data[i].historical.hourly);
+            }
         }
     } catch (error) {
         console.log('Error at getData: ', error);
+    } finally {
+        await mongoose.disconnect();
     }
 }
 
 async function saveData(name, data) {
     try {
-        await mongoose.connect(process.env.MONGO_COMPASS_URI);
         const timestamp = moment().format('YYYY-MM-DDTHH:mm:ssZ');
         let times_saved = ""
         console.log(name)
@@ -67,12 +75,10 @@ async function saveData(name, data) {
         console.log(times_saved);
     } catch (error) {
         console.log('Error at the start of saveData: ', error);
-    } finally {
-        await mongoose.disconnect();
     }
 }
 
-// getData()
+// get_hourly_data(true)
 module.exports = get_hourly_data
 
 

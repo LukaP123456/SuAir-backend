@@ -14,29 +14,37 @@ const data_files = [
     '../test-data-json/maksima-big-data.json',
     '../test-data-json/desanka-big-data.json',
 ]
-const get_monthly_data = async () => {
+const get_monthly_data = async (test) => {
     try {
         let data = []
-        for (let i = 0; i < data_files.length; i++) {
-            //FETCH DATA FROM JSON FILES FOR TESTING
-            // const response = require(data_files[i]);
-            // data.push(response)
-            // const name = data[i].name
-            // await saveData(name, data[i].historical.monthly);
-            //FETCH DATA FROM URL Should run every 3 months
-            const response = await axios.get(urls[i]);
-            data.push(response.data);
-            const name = data[i].name
-            await saveData(name, data[i].historical.monthly);
+        await mongoose.connect(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
+        if (test) {
+            console.log('==============TEST MONTHLY DATA============')
+            for (let i = 0; i < data_files.length; i++) {
+                //FETCH DATA FROM JSON FILES FOR TESTING
+                const response = require(data_files[i]);
+                data.push(response)
+                const name = data[i].name
+                await saveData(name, data[i].historical.monthly);
+            }
+        } else {
+            for (let i = 0; i < data_files.length; i++) {
+                //FETCH DATA FROM URL Should run every 3 months
+                const response = await axios.get(urls[i]);
+                data.push(response.data);
+                const name = data[i].name
+                await saveData(name, data[i].historical.monthly);
+            }
         }
     } catch (error) {
         console.log('Error at getData: ', error);
+    } finally {
+        await mongoose.disconnect();
     }
 }
 
 async function saveData(name, data) {
     try {
-        await mongoose.connect(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
         const timestamp = moment().format('YYYY-MM-DDTHH:mm:ssZ');
         let times_saved = ""
         console.log(name)
@@ -68,10 +76,8 @@ async function saveData(name, data) {
         console.log(times_saved);
     } catch (error) {
         console.log('Error at the start of saveData: ', error);
-    } finally {
-        await mongoose.disconnect();
     }
 }
 
-// getData()
+// get_monthly_data(true)
 module.exports = get_monthly_data
