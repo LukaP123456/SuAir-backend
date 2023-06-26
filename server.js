@@ -130,18 +130,17 @@ start();
 //CRON JOBS
 cron.schedule('0 * * * *', () => {
     get_hourly_data(true)
-    console.log('Running every 48 hours');
+    console.log('Running every hour');
 });
-// cron.schedule('15 * * * *', () => {
-cron.schedule('10 * * * *', () => {
+cron.schedule('5 * * * *', () => {
     get_daily_data(true)
-    console.log('Running every 48 hours');
+    console.log('Running every hour');
 });
-// cron.schedule('25 * * * *', () => {
-cron.schedule('15 * * * *', () => {
+cron.schedule('10 * * * *', () => {
     get_monthly_data(true)
-    console.log('Running every 48 hours');
+    console.log('Running every hour');
 });
+
 cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
     console.log('Running every 48 hours');
