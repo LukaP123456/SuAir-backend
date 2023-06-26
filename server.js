@@ -3,6 +3,7 @@ const server = express();
 const session = require('express-session')
 const MongoStore = require('connect-mongo');
 const cron = require("node-cron");
+const schedule = require('node-schedule');
 //CRON JOB
 const get_hourly_data = require('./Jobs/get_hourly_data')
 const get_daily_data = require('./Jobs/get_daily_data')
@@ -129,5 +130,27 @@ start();
 //CRON JOBS
 cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
-    console.log('running a task every minute');
+    console.log('Running every 48 hours');
+});
+//POSSIBLE CRON SCHEDULE FOR get_daily_data
+// const rule = new schedule.RecurrenceRule();
+// rule.dayOfWeek = [new schedule.Range(0, 6)];
+// rule.hour = 0;
+// rule.minute = 0;
+// rule.second = 0;
+// let lastExecution = new Date();
+// schedule.scheduleJob(rule, () => {
+//     const now = new Date();
+//     if (now - lastExecution >= 29 * 24 * 60 * 60 * 1000) {
+//         console.log('running a task every 29 days');
+//         lastExecution = now;
+//     }
+// });
+cron.schedule('0 0 1 * *', () => {
+    get_daily_data()
+    console.log('running a task on the first day of every month at midnight');
+});
+cron.schedule('0 0 1 */3 *', () => {
+    get_monthly_data()
+    console.log('Running every 48 hours');
 });
