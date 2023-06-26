@@ -32,7 +32,7 @@ server.use(express.urlencoded({extended: true})); // for parsing URL-encoded bod
 server.use(session({
     secret: 'cat',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false
 }));
 server.use(passport.initialize());
 server.use(passport.session());
