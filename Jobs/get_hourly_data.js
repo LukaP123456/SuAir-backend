@@ -17,14 +17,14 @@ const getData = async () => {
         let data = []
         for (let i = 0; i < data_files.length; i++) {
             //FETCH DATA FROM JSON FILES FOR TESTING
-            const response = require(data_files[i]);
-            data.push(response)
-            const name = data[i].name
-            await saveData(name, data[i].historical.hourly);
+            // const response = require(data_files[i]);
+            // data.push(response)
+            // const name = data[i].name
+            // await saveData(name, data[i].historical.hourly);
             //FETCH DATA FROM URL RUNS EVERY 48 hours
-            // const response = await fetch(urls[i]);
-            // data.push(await response.json())
-            // await saveData(data[i],i);
+            const response = await fetch(urls[i]);
+            data.push(await response.json())
+            await saveData(data[i], i);
         }
     } catch (error) {
         console.log('Error at getData: ', error);
@@ -36,6 +36,7 @@ async function saveData(name, data) {
         await mongoose.connect(process.env.MONGO_COMPASS_URI);
         const timestamp = new Date().toLocaleString()
         let times_saved = ""
+        console.log(name)
         for (let i = 0; i < data.length; i++) {
             const newHourlyMeasurement = new HourlyMeasurementModel({
                 cron_job_timestamp: timestamp,
@@ -60,7 +61,6 @@ async function saveData(name, data) {
                 console.log(err);
             }
         }
-        console.log(name)
         console.log(times_saved);
     } catch (error) {
         console.log('Error at the start of saveData: ', error);

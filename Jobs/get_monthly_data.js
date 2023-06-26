@@ -36,7 +36,7 @@ async function saveData(name, data) {
     try {
         await mongoose.connect(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
         const timestamp = new Date().toLocaleString()
-        let times_saved = 0
+        let times_saved = ""
         console.log(name)
         for (let i = 0; i < data.length; i++) {
             const newDailyMeasurement = new MonthlyMeasurementModel({
@@ -57,12 +57,13 @@ async function saveData(name, data) {
             })
             try {
                 await newDailyMeasurement.save();
-                times_saved++
+                times_saved += i + " "
                 console.log(times_saved);
             } catch (err) {
                 console.log(err);
             }
         }
+        console.log(times_saved);
     } catch (error) {
         console.log('Error at the start of saveData: ', error);
     } finally {
