@@ -1,14 +1,8 @@
 const express = require('express');
 const server = express();
-const session = require('express-session')
-server.use(session({
-    secret: 'cat',
-    resave: false,
-    saveUninitialized: true
-}));
+const express_session = require('express-session')
 const cron = require("node-cron");
 //CRON JOB
-
 const passport = require('passport');
 const connectDB = require('./DB/connect')
 const InvalidToken = require('./app/Models/InvalidToken')
@@ -34,6 +28,11 @@ const rateLimiter = require('express-rate-limit')
 // -------------------------------------MIDDLEWARES START-------------------------------------
 server.use(express.json()); // for parsing JSON bodies
 server.use(express.urlencoded({extended: true})); // for parsing URL-encoded bodies
+server.use(express_session({
+    secret: 'cat',
+    resave: false,
+    saveUninitialized: true
+}));
 server.use(passport.initialize());
 server.use(passport.session());
 //RATE LIMITER, LIMIT NO OF API CALLS
