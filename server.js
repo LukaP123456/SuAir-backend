@@ -127,7 +127,7 @@ const start = async () => {
 
 start();
 //CRON JOBS
-cron.schedule('* * * * *', () => {
+cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
     console.log('running a task every minute');
 });
