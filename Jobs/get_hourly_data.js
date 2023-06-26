@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 const axios = require('axios');
+const moment = require('moment');
 const HourlyMeasurementModel = require('../app/Models/AQDataHourly');
 const tokens = [
     process.env.STUDIO_PRESENT_TOKEN,
@@ -36,7 +37,7 @@ const getData = async () => {
 async function saveData(name, data) {
     try {
         await mongoose.connect(process.env.MONGO_COMPASS_URI);
-        const timestamp = new Date().toLocaleString()
+        const timestamp = moment().format('YYYY-MM-DDTHH:mm:ssZ');
         let times_saved = ""
         console.log(name)
         for (let i = 0; i < data.length; i++) {

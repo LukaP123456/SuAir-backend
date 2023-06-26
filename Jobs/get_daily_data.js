@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
+const moment = require('moment');
 const DailyMeasurementModel = require('../app/Models/AQDataDaily');
 const axios = require("axios");
 const tokens = [
@@ -36,7 +37,7 @@ const getData = async () => {
 async function saveData(name, data) {
     try {
         await mongoose.connect(process.env.MONGO_COMPASS_URI);
-        const timestamp = new Date().toLocaleString()
+        const timestamp = moment().format('YYYY-MM-DDTHH:mm:ssZ');
         let times_saved = ""
         console.log(name)
         for (let i = 0; i < data.length; i++) {
@@ -73,30 +74,3 @@ async function saveData(name, data) {
 
 getData()
 // module.exports = getData
-
-//TODO:
-// ===============================================================================================
-// DAY
-// Daily is the average value of the whole day. How to get value for every hour for that particular day?
-// Create a day model which will have all the values of the day ( average value for every hour) and the average total value for that day.
-// ===============================================================================================
-// HOURLY
-// Hourly doesnt return the value of only one day it returns the value of 3 days. How do i bind the hourly values of day 1?
-// INSTANT
-// ===============================================================================================
-// Should we store instant value? Do we not need to know the air quality in this moment?
-// instant returns readings every 5 min.
-// MONTHLY
-// ===============================================================================================
-// Also need to save average monthly value, value of the last 3 months is returned from the api. Do i need to bind average value of a day
-// to a month like i do with day and hour?
-// ===============================================================================================
-// SOLUTION:With cron job save the daily data and hourly data in separate collections/models as a time series data and then extract the date from the time series data. Then
-// create a regular Day model which will combine the two types of data by searching the Hourly time series data by the date of the day.
-// ===============================================================================================
-// SOLUTION 2:
-// Fetch the current data from the api and then manually create daily,monthly,yearly data instead of fetching it from the api
-// problem-> don't know how to calculate aqius ranking also bad at math
-
-
-

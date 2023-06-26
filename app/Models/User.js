@@ -51,7 +51,6 @@ UserSchema.methods.createJWT = function () {
 
 UserSchema.methods.comparePassword = async function (candidatePassword) {
     const googleId = this.googleID
-    //TODO:Test out when a google auth user tries to register with normal login what happens
     if (googleId) {
         throw new Error('Cannot compare password for user with googleID please user google auth to login');
     }
