@@ -1,5 +1,4 @@
 const express = require('express');
-const server = express();
 const express_session = require('express-session')
 const cron = require("node-cron");
 //CRON JOB
@@ -26,6 +25,7 @@ const cors = require('cors')
 const xss = require('xss-clean')
 const rateLimiter = require('express-rate-limit')
 // -------------------------------------MIDDLEWARES START-------------------------------------
+const server = express();
 server.use(express.json()); // for parsing JSON bodies
 server.use(express.urlencoded({extended: true})); // for parsing URL-encoded bodies
 server.use(express_session({
