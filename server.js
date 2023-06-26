@@ -132,11 +132,13 @@ cron.schedule('0 * * * *', () => {
     get_hourly_data(true)
     console.log('Running every 48 hours');
 });
-cron.schedule('15 * * * *', () => {
+// cron.schedule('15 * * * *', () => {
+cron.schedule('10 * * * *', () => {
     get_daily_data(true)
     console.log('Running every 48 hours');
 });
-cron.schedule('25 * * * *', () => {
+// cron.schedule('25 * * * *', () => {
+cron.schedule('15 * * * *', () => {
     get_monthly_data(true)
     console.log('Running every 48 hours');
 });
