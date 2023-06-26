@@ -1,6 +1,7 @@
 const express = require('express');
 const server = express();
 const session = require('express-session')
+const MongoStore = require('connect-mongo');
 const cron = require("node-cron");
 //CRON JOB
 const passport = require('passport');
@@ -32,7 +33,8 @@ server.use(express.urlencoded({extended: true})); // for parsing URL-encoded bod
 server.use(session({
     secret: 'cat',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true,
+    store: MongoStore.create({mongoUrl: process.env.MONGO_COMPASS_URI})
 }));
 server.use(passport.initialize());
 server.use(passport.session());
