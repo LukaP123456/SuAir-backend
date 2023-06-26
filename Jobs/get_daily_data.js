@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 const DailyMeasurementModel = require('../app/Models/AQDataDaily');
+const axios = require("axios");
 const tokens = [
     process.env.STUDIO_PRESENT_TOKEN,
     process.env.MAKSIMA_TOKEN,
@@ -17,14 +18,15 @@ const getData = async () => {
         let data = []
         for (let i = 0; i < data_files.length; i++) {
             //FETCH DATA FROM JSON FILES FOR TESTING
-            const response = require(data_files[i]);
-            data.push(response)
-            const name = data[i].name
-            await saveData(name, data[i].historical.daily, i);
+            // const response = require(data_files[i]);
+            // data.push(response)
+            // const name = data[i].name
+            // await saveData(name, data[i].historical.daily, i);
             //FETCH DATA FROM URL Should run every 29 days
-            // const response = await fetch(urls[i]);
-            // data.push(await response.json())
-            // await saveData(data[i]);
+            const response = await axios.get(urls[i]);
+            data.push(response.data);
+            const name = data[i].name
+            await saveData(name, data[i].historical.daily);
         }
     } catch (error) {
         console.log('Error at getData: ', error);

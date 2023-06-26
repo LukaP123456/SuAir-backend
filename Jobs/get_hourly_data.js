@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
+const axios = require('axios');
 const HourlyMeasurementModel = require('../app/Models/AQDataHourly');
 const tokens = [
     process.env.STUDIO_PRESENT_TOKEN,
@@ -22,9 +23,10 @@ const getData = async () => {
             // const name = data[i].name
             // await saveData(name, data[i].historical.hourly);
             //FETCH DATA FROM URL RUNS EVERY 48 hours
-            const response = await fetch(urls[i]);
-            data.push(await response.json())
-            await saveData(data[i], i);
+            const response = await axios.get(urls[i]);
+            data.push(response.data);
+            const name = data[i].name
+            await saveData(name, data[i].historical.hourly);
         }
     } catch (error) {
         console.log('Error at getData: ', error);
