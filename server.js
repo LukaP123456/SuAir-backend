@@ -130,18 +130,18 @@ const start = async () => {
 start();
 //CRON JOBS
 //Test cron jobs
-// cron.schedule('0 * * * *', () => {
-//     get_hourly_data(true)
-//     console.log('Running every hour');
-// });
-// cron.schedule('5 * * * *', () => {
-//     get_daily_data(true)
-//     console.log('Running every hour');
-// });
-// cron.schedule('10 * * * *', () => {
-//     get_monthly_data(true)
-//     console.log('Running every hour');
-// });
+cron.schedule('0 * * * *', () => {
+    get_hourly_data(true)
+    console.log('Running every hour');
+});
+cron.schedule('5 * * * *', () => {
+    get_daily_data(true)
+    console.log('Running every hour');
+});
+cron.schedule('10 * * * *', () => {
+    get_monthly_data(true)
+    console.log('Running every hour');
+});
 
 let date = new Date(2023, 6, 27, 9, 58, 0);
 let j = schedule.scheduleJob(date, function () {
