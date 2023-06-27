@@ -44,5 +44,7 @@ async function scrape_data() {
     }
 }
 
+scrape_data()
+
 module.exports = scrape_data
 

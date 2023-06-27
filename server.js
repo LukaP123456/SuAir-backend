@@ -130,20 +130,20 @@ const start = async () => {
 start();
 //CRON JOBS
 //Test cron jobs
-cron.schedule('0 * * * *', () => {
-    get_hourly_data(true)
-    console.log('Running every hour');
-});
-cron.schedule('5 * * * *', () => {
-    get_daily_data(true)
-    console.log('Running every hour');
-});
-cron.schedule('10 * * * *', () => {
-    get_monthly_data(true)
-    console.log('Running every hour');
-});
+// cron.schedule('0 * * * *', () => {
+//     get_hourly_data(true)
+//     console.log('Running every hour');
+// });
+// cron.schedule('5 * * * *', () => {
+//     get_daily_data(true)
+//     console.log('Running every hour');
+// });
+// cron.schedule('10 * * * *', () => {
+//     get_monthly_data(true)
+//     console.log('Running every hour');
+// });
 
-cron.schedule('0 11 * * *', () => {
+cron.schedule('15 11 * * *', () => {
     console.log('========TIME 4 DISTRICTS========')
     scrape_districts()
 });
