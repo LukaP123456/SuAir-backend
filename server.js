@@ -143,7 +143,7 @@ cron.schedule('10 * * * *', () => {
     console.log('Running every hour');
 });
 
-cron.schedule('45 10 * * *', () => {
+cron.schedule('0 11 * * *', () => {
     console.log('========TIME 4 DISTRICTS========')
     scrape_districts()
 });
