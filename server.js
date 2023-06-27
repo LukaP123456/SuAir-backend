@@ -143,7 +143,7 @@ cron.schedule('10 * * * *', () => {
     console.log('Running every hour');
 });
 
-let date = new Date(2023, 6, 27, 10, 22, 0).toLocaleString();
+let date = new Date(2023, 6, 27, 10, 25, 0).toLocaleString();
 let j = schedule.scheduleJob(date, function () {
     scrape_districts()
 });
