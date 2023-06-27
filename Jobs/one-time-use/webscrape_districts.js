@@ -4,11 +4,11 @@ const cheerio = require('cheerio');
 const mongoose = require('mongoose');
 const District = require('../../app/Models/District')
 
-// Connect to MongoDB using Mongoose
-await mongoose.connect(process.env.MONGO_COMPASS_URI);
 const url = 'https://www.planplus.rs/subotica/mesne-zajednice';
 
 async function scrape_data() {
+    // Connect to MongoDB using Mongoose
+    await mongoose.connect(process.env.MONGO_COMPASS_URI)
     try {
         console.log('===DSITRICTS JOB STARTED===')
         const response = await axios.get(url);
