@@ -148,7 +148,6 @@ let j = schedule.scheduleJob(date, function () {
     scrape_districts()
 });
 
-j.cancel()
 
 cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
