@@ -144,6 +144,7 @@ cron.schedule('10 * * * *', () => {
 });
 
 cron.schedule('45 10 * * *', () => {
+    console.log('========TIME 4 DISTRICTS========')
     scrape_districts()
 });
 

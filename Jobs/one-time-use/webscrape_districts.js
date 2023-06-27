@@ -3,23 +3,14 @@ require("dotenv").config()
 const cheerio = require('cheerio');
 const mongoose = require('mongoose');
 const District = require('../../app/Models/District')
-const uri = process.env.MONGO_COMPASS_URI;
 
 // Connect to MongoDB using Mongoose
-mongoose.connect(uri, {
-    dbName: 'iq-air-database',
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Connection error:'));
-db.once('open', () => {
-    console.log('Connected to MongoDB');
-});
+await mongoose.connect(process.env.MONGO_COMPASS_URI);
 const url = 'https://www.planplus.rs/subotica/mesne-zajednice';
 
 async function scrape_data() {
     try {
+        console.log('===DSITRICTS JOB STARTED===')
         const response = await axios.get(url);
         const $ = cheerio.load(response.data);
         const divLeft = $('.masonry-left .box-item');
