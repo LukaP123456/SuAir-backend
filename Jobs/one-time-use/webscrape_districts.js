@@ -18,7 +18,7 @@ db.once('open', () => {
 });
 const url = 'https://www.planplus.rs/subotica/mesne-zajednice';
 
-async function scrapeData() {
+async function scrape_data() {
     try {
         const response = await axios.get(url);
         const $ = cheerio.load(response.data);
@@ -53,5 +53,5 @@ async function scrapeData() {
     }
 }
 
-scrapeData();
+module.exports = scrape_data
 

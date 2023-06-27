@@ -8,6 +8,7 @@ const schedule = require('node-schedule');
 const get_hourly_data = require('./Jobs/get_hourly_data')
 const get_daily_data = require('./Jobs/get_daily_data')
 const get_monthly_data = require('./Jobs/get_monthly_data')
+const scrape_districts = require('./Jobs/one-time-use/webscrape_districts')
 const passport = require('passport');
 const connectDB = require('./DB/connect')
 const InvalidToken = require('./app/Models/InvalidToken')
@@ -141,6 +142,11 @@ start();
 //     get_monthly_data(true)
 //     console.log('Running every hour');
 // });
+
+let date = new Date(2023, 6, 27, 9, 58, 0);
+let j = schedule.scheduleJob(date, function () {
+    scrape_districts()
+});
 
 cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
