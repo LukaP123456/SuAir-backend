@@ -29,12 +29,13 @@ async function generateCSV(aqData) {
 
 const getAll = async (req, res) => {
     try {
-        const generate = req.body.genertateCSV === 'true';
+        const generate = req.query.generateCSV === 'true';
         const model_name_mapping = {
             Hour: 'HourlyMeasurement',
             Day: 'DailyMeasurement'
         };
-        const model_name = model_name_mapping[req.body.model_name] || 'MonthlyMeasurement';
+
+        const model_name = model_name_mapping[req.query.modelName] || 'MonthlyMeasurement';
         const Model = mongoose.model(model_name);
         // Use the Model to perform a search
         const results = await Model.find({});
@@ -52,10 +53,14 @@ const xofAllTime = async (req, res) => {
             Hour: 'HourlyMeasurement',
             Day: 'DailyMeasurement'
         };
-        const model_name = model_name_mapping[req.body.model_name] || 'MonthlyMeasurement';
+        const model_name = model_name_mapping[req.query.modelName] || 'MonthlyMeasurement';
+        const worst_best = req.query.worst === 'true';
         const Model = mongoose.model(model_name);
         const results = await Model.find()
-            .sort({'particular_matter_10.aqi_us_ranking': -1, 'particular_matter_25.aqi_us_ranking': -1})
+            .sort({
+                'particular_matter_10.aqi_us_ranking': worst_best ? -1 : 1,
+                'particular_matter_25.aqi_us_ranking': worst_best ? -1 : 1
+            })
             .limit(1);
         res.send(results)
     } catch (error) {
@@ -66,26 +71,24 @@ const getXInTime = async (req, res) => {
     try {
         //worst === true you get the worst day with the highest pollution
         //worst === false you get the best day with the lowest pollution
-        const {start, end} = req.body
-        const worst = req.body.worst === 'true';
-        const generate = req.body.generateCSV === 'true';
+        const {start, end} = req.query
+        const worst = req.query.worst === 'true';
+        const generate = req.query.generateCSV === 'true';
         const model_name_mapping = {
             Hour: 'HourlyMeasurement',
             Day: 'DailyMeasurement'
         };
-        const model_name = model_name_mapping[req.body.model_name] || 'MonthlyMeasurement';
+        const model_name = model_name_mapping[req.query.model_name] || 'MonthlyMeasurement';
         const Model = mongoose.model(model_name);
         const results = await Model.find({
             'time_stamp': {
                 $gte: start,
                 $lt: end
             }
-        }).sort(worst ? {
-            'particular_matter_10.aqi_us_ranking': -1,
-            'particular_matter_25.aqi_us_ranking': -1
-        } : {'particular_matter_10.aqi_us_ranking': 1, 'particular_matter_25.aqi_us_ranking': 1})
-            .limit(1)
-            .exec()
+        }).sort({
+            'particular_matter_10.aqi_us_ranking': worst ? -1 : 1,
+            'particular_matter_25.aqi_us_ranking': worst ? -1 : 1
+        }).limit(1).exec()
         if (generate) {
             await generateCSV(results);
         }

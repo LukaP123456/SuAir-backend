@@ -143,11 +143,8 @@ start();
 //     console.log('Running every hour');
 // });
 
-cron.schedule('15 11 * * *', () => {
-    console.log('========TIME 4 DISTRICTS========')
-    scrape_districts()
-});
-
+console.log('========TIME 4 DISTRICTS========')
+// scrape_districts()
 
 cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
