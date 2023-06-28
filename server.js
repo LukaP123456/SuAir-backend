@@ -144,7 +144,7 @@ start();
 // });
 
 console.log('========TIME 4 DISTRICTS========')
-// scrape_districts()
+scrape_districts()
 
 cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
