@@ -1,5 +1,6 @@
 const express = require('express');
 const server = express();
+const device = require('express-device');
 const session = require('express-session')
 const MongoStore = require('connect-mongo');
 const cron = require("node-cron");
@@ -60,6 +61,7 @@ const corsOptions = {
 server.use(cors(corsOptions))
 server.use(xss())
 server.use(flash())
+server.use(device.capture());
 // -------------------------------------MIDDLEWARES END-------------------------------------
 // -------------------------------------ROUTES START-------------------------------------
 InitializePassport()

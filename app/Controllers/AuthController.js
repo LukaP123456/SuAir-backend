@@ -8,8 +8,12 @@ const {StatusCodes} = require("http-status-codes");
 const {BadRequestError, UnauthenticatedError} = require("../../errors");
 const jwt = require('jsonwebtoken');
 const {lookup} = require('geoip-lite');
+const moment = require("moment/moment");
 const JWTregister = async (req, res, next) => {
     try {
+        const device_type = req.device
+        console.log(device_type)
+        process.exit()
         const {name, email, password} = req.body
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
@@ -92,7 +96,28 @@ const JWTlogin = async (req, res, next) => {
         const secret_key = process.env.JWT_SECRET
         if (user && isPasswordCorrect) {
             const token = jwt.sign({id: user._id, name: user.name, email: user.email}, secret_key, {expiresIn: '1d'});
-            // const token = jwt.sign({id: user._id}, secret_key);
+            const ip_address = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+            const login_time = moment().format('YYYY-MM-DDTHH:mm:ssZ');
+
+            const user_agent = req.get('User-Agent');
+            const language = req.headers["accept-language"];
+            const geo_data = lookup(ip_address)
+            const user_data = await new UserData({
+                range: geo_data.range,
+                user_id: user.id,
+                country: geo_data.country,
+                user_agent: user_agent,
+                language: language,
+                ip_address: ip_address,
+                region: geo_data.region,
+                is_in_eu: geo_data.eu,
+                timezone: geo_data.timezone,
+                city: geo_data.city,
+                latitude_longitude: geo_data.ll,
+                metro_area_code: geo_data.metro,
+                radius_around_lat_lon: geo_data.area
+            }).save()
+            console.log(user, user_data)
             res.status(200).json({token});
         } else {
             res.status(401).json({message: 'Invalid email or password'});
