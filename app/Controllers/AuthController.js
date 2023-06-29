@@ -6,7 +6,7 @@ const sendEmail = require("../../email");
 const {StatusCodes} = require("http-status-codes");
 const {BadRequestError, UnauthenticatedError} = require("../../errors");
 const jwt = require('jsonwebtoken');
-
+const {lookup} = require('geoip-lite');
 const JWTregister = async (req, res, next) => {
     try {
         const {name, email, password} = req.body
@@ -14,7 +14,8 @@ const JWTregister = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, salt)
         const ip_address = req.socket.localAddress
         const user_agent = req.get('User-Agent');
-        console.log(user_agent)
+        const language = req.headers["accept-language"];
+        console.log(lookup(ip_address))
         process.exit()
         const user = await new User({
             name: name,
