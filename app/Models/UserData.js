@@ -15,8 +15,8 @@ const UserDataSchema = new mongoose.Schema({
     timezone: String,
     city: String,
     latitude_longitude: [Number],
-    metro: Number,
-    area: Number
+    metro_area_code: Number,
+    radius_around_lat_lon: Number
 }, {collection: 'user-data'});
 
 module.exports = mongoose.model('UserData', UserDataSchema)

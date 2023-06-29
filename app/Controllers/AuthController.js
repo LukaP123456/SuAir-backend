@@ -34,8 +34,8 @@ const JWTregister = async (req, res, next) => {
             timezone: geo_data.timezone,
             city: geo_data.city,
             latitude_longitude: geo_data.ll,
-            metro: geo_data.metro,
-            area: geo_data.area
+            metro_area_code: geo_data.metro,
+            radius_around_lat_lon: geo_data.area
         }).save()
         console.log(user, user_data)
         let verificationToken = await new VerificationToken({
