@@ -74,31 +74,7 @@ const JWTlogin = async (req, res, next) => {
         const secret_key = process.env.JWT_SECRET
         if (user && isPasswordCorrect) {
             const token = jwt.sign({id: user._id, name: user.name, email: user.email}, secret_key, {expiresIn: '1d'});
-            const ip_address = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-            const login_time = moment().format('YYYY-MM-DDTHH:mm:ssZ');
-            //TODO: Need to test out if device type is correctly working on the browser. In postman it always shows as phone lol
-            const device_type = req.device.type
-            console.log(device_type)
-            const user_agent = req.get('User-Agent');
-            const language = req.headers["accept-language"];
-            const geo_data = lookup(ip_address)
-            const user_data = await new UserData({
-                range: geo_data.range,
-                user_id: user.id,
-                login_time: login_time,
-                country: geo_data.country,
-                device_type: device_type,
-                user_agent: user_agent,
-                language: language,
-                ip_address: ip_address,
-                region: geo_data.region,
-                is_in_eu: geo_data.eu,
-                timezone: geo_data.timezone,
-                city: geo_data.city,
-                latitude_longitude: geo_data.ll,
-                metro_area_code: geo_data.metro,
-                radius_around_lat_lon: geo_data.area
-            }).save()
+            const user_data = await log_user_data(user);
             console.log(user, user_data)
             res.status(200).json({token});
         } else {
@@ -106,6 +82,35 @@ const JWTlogin = async (req, res, next) => {
         }
     } catch (error) {
         next(error)
+    }
+
+    async function log_user_data(user) {
+        const ip_address = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+        const login_time = moment().format('YYYY-MM-DDTHH:mm:ssZ');
+        //TODO: Need to test out if device type is correctly working on the browser. In postman it always shows as phone lol
+        const device_type = req.device.type
+        console.log(device_type)
+        const user_agent = req.get('User-Agent');
+        const language = req.headers["accept-language"];
+        const geo_data = lookup("207.97.227.239")
+        const user_data = await new UserData({
+            range: geo_data.range,
+            user_id: user.id,
+            login_time: login_time,
+            country: geo_data.country,
+            device_type: device_type,
+            user_agent: user_agent,
+            language: language,
+            ip_address: ip_address,
+            region: geo_data.region,
+            is_in_eu: geo_data.eu,
+            timezone: geo_data.timezone,
+            city: geo_data.city,
+            latitude_longitude: geo_data.ll,
+            metro_area_code: geo_data.metro,
+            radius_around_lat_lon: geo_data.area
+        }).save()
+        return user_data;
     }
 }
 
