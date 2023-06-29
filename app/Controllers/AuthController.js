@@ -22,6 +22,7 @@ const JWTregister = async (req, res, next) => {
             email: email,
             password: hashedPassword
         }).save()
+
         const user_data = await new UserData({
             range: geo_data.range,
             user_id: user.id,
