@@ -76,7 +76,6 @@ async function isLoggedIn(req, res, next) {
         const invalidToken = await InvalidToken.findOne({token: token});
         if (invalidToken) {
             res.redirect('/')
-            // return res.status(401).json({message: 'Unauthorized please register or log in'});
         }
         return next();
     }
@@ -86,7 +85,6 @@ server.use('/rauth', AuthRoutes)
 server.use('/rauth', isLoggedIn, ProtectedAuthRoutes)
 server.use('/districts', isLoggedIn, DistrictRoutes)
 server.use('/AQI', isLoggedIn, AQIRoutes)
-
 // -------------------------------------GOOGLE AUTH ROUTES START-------------------------------------
 server.get('/', (req, res) => {
     res.send('<a href="/auth/google">Authenticate with Google </a>')

@@ -92,7 +92,7 @@ const JWTlogin = async (req, res, next) => {
         const user_agent = req.get('User-Agent');
         const language = req.headers["accept-language"];
         const geo_data = lookup(ip_address)
-        const user_data = await new UserData({
+        return await new UserData({
             range: geo_data.range,
             user_id: user.id,
             login_time: login_time,
@@ -108,8 +108,7 @@ const JWTlogin = async (req, res, next) => {
             latitude_longitude: geo_data.ll,
             metro_area_code: geo_data.metro,
             radius_around_lat_lon: geo_data.area
-        }).save()
-        return user_data;
+        }).save();
     }
 }
 

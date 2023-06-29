@@ -6,6 +6,9 @@ const DailyMeasurement = require('../Models/AQDataDaily')
 const HourlyMeasurement = require('../Models/AQDataHourly')
 const User = require('../Models/User')
 const mongoose = require('mongoose')
+const ExportLog = require("../Models/ExportLog");
+const jwt = require('jsonwebtoken');
+const moment = require("moment");
 
 //TODO: Need to log user data->browser,ip address,web or mobile etc.
 // Also need to log the data which is downloaded->Marko Markovic downaloded on DATE this data->DATA in this format
@@ -18,6 +21,7 @@ async function generateCSV(aqData) {
         {label: 'Particular matter 10 AQI US ranking', value: 'particular_matter_10.aqi_us_ranking'},
         {label: 'Particular matter 25 concentration', value: 'particular_matter_25.concentration'},
         {label: 'Particular matter 25 AQI US ranking', value: 'particular_matter_25.aqi_us_ranking'},
+        {label: 'Name of measuring device', value: 'name'},
         {label: 'Time of measurement', value: 'time_stamp'},
         {label: 'Air temperature in celsius', value: 'temperature'},
         {label: 'Air pressure', value: 'air_pressure'},
@@ -30,6 +34,24 @@ async function generateCSV(aqData) {
     fs.writeFileSync(name + '.csv', data);
 }
 
+async function log_export_data(req, export_time_range, measuring_device) {
+    let user = null
+    let export_time = null
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1].trim();
+        export_time = moment().format('YYYY-MM-DDTHH:mm:ssZ');
+        user = jwt.verify(token, process.env.JWT_SECRET);
+    } else {
+        //Google auth
+    }
+    await new ExportLog({
+        user_id: user.id,
+        export_time: export_time,
+        export_time_range: export_time_range,
+        measuring_device: measuring_device
+    }).save();
+}
+
 const getAll = async (req, res) => {
     try {
         const generate = req.query.generateCSV === 'true';
@@ -37,13 +59,13 @@ const getAll = async (req, res) => {
             Hour: 'HourlyMeasurement',
             Day: 'DailyMeasurement'
         };
-
         const model_name = model_name_mapping[req.query.modelName] || 'MonthlyMeasurement';
         const Model = mongoose.model(model_name);
         // Use the Model to perform a search
         const results = await Model.find({});
         if (generate) {
             await generateCSV(results);
+            await log_export_data(req);
         }
         res.send(results)
     } catch (error) {
@@ -94,6 +116,7 @@ const getXInTime = async (req, res) => {
         }).limit(1).exec()
         if (generate) {
             await generateCSV(results);
+            await log_export_data(req, start + end,);
         }
         res.send(results)
     } catch (error) {
