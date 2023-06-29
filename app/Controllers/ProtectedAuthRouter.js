@@ -15,7 +15,7 @@ const logout = (req, res, next) => {
     } else {
         //User is authenticated with JWT
         const token = req.headers.authorization.split(' ')[1];
-        const secret_key = 'secret'
+        const secret_key = process.env.JWT_SECRET
         jwt.verify(token, secret_key, (err, decoded) => {
             if (err) {
                 return res.status(401).json({message: 'Invalid token'});

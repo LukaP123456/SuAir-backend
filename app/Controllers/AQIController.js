@@ -7,6 +7,9 @@ const HourlyMeasurement = require('../Models/AQDataHourly')
 const User = require('../Models/User')
 const mongoose = require('mongoose')
 
+//TODO: Need to log user data->browser,ip address,web or mobile etc.
+// Also need to log the data which is downloaded->Marko Markovic downaloded on DATE this data->DATA in this format
+
 async function generateCSV(aqData) {
     console.log(aqData)
     const fields = [
