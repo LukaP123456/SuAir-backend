@@ -7,6 +7,8 @@ const UserDataSchema = new mongoose.Schema({
     },
     range: [Number],
     country: String,
+    login_time: Date,
+    device_type: String,
     user_agent: String,
     ip_address: String,
     language: String,

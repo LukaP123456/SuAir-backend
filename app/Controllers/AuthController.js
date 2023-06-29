@@ -11,37 +11,15 @@ const {lookup} = require('geoip-lite');
 const moment = require("moment/moment");
 const JWTregister = async (req, res, next) => {
     try {
-        const device_type = req.device.type
-        console.log(device_type)
-        process.exit()
         const {name, email, password} = req.body
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
-        const ip_address = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-        const user_agent = req.get('User-Agent');
-        const language = req.headers["accept-language"];
-        const geo_data = lookup(ip_address)
         const user = await new User({
             name: name,
             email: email,
             password: hashedPassword
         }).save()
-        const user_data = await new UserData({
-            range: geo_data.range,
-            user_id: user.id,
-            country: geo_data.country,
-            user_agent: user_agent,
-            language: language,
-            ip_address: ip_address,
-            region: geo_data.region,
-            is_in_eu: geo_data.eu,
-            timezone: geo_data.timezone,
-            city: geo_data.city,
-            latitude_longitude: geo_data.ll,
-            metro_area_code: geo_data.metro,
-            radius_around_lat_lon: geo_data.area
-        }).save()
-        console.log(user, user_data)
+        console.log(user)
         let verificationToken = await new VerificationToken({
             userId: user._id,
             token: crypto.randomBytes(32).toString("hex"),
@@ -98,14 +76,18 @@ const JWTlogin = async (req, res, next) => {
             const token = jwt.sign({id: user._id, name: user.name, email: user.email}, secret_key, {expiresIn: '1d'});
             const ip_address = req.headers['x-forwarded-for'] || req.connection.remoteAddress
             const login_time = moment().format('YYYY-MM-DDTHH:mm:ssZ');
-
+            //TODO: Need to test out if device type is correctly working on the browser. In postman it always shows as phone lol
+            const device_type = req.device.type
+            console.log(device_type)
             const user_agent = req.get('User-Agent');
             const language = req.headers["accept-language"];
             const geo_data = lookup(ip_address)
             const user_data = await new UserData({
                 range: geo_data.range,
                 user_id: user.id,
+                login_time: login_time,
                 country: geo_data.country,
+                device_type: device_type,
                 user_agent: user_agent,
                 language: language,
                 ip_address: ip_address,
