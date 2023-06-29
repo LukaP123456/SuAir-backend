@@ -1,4 +1,5 @@
 const User = require('../Models/User')
+const UserData = require('../Models/UserData')
 const bcrypt = require("bcryptjs");
 const VerificationToken = require("../Models/VerificationToken");
 const crypto = require("crypto");
@@ -12,18 +13,32 @@ const JWTregister = async (req, res, next) => {
         const {name, email, password} = req.body
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
-        const ip_address = req.socket.localAddress
-        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+        const ip_address = req.headers['x-forwarded-for'] || req.connection.remoteAddress
         const user_agent = req.get('User-Agent');
         const language = req.headers["accept-language"];
-        console.log(lookup(ip), "IP ADDRESS", ip)
-        process.exit()
+        const geo_data = lookup(ip_address)
         const user = await new User({
             name: name,
             email: email,
             password: hashedPassword
         }).save()
-        console.log(user)
+        const user_data = await new UserData({
+            range: geo_data.range,
+            user_id: user.id,
+            country: geo_data.country,
+            user_agent: user_agent,
+            language: language,
+            ip_address: ip_address,
+            region: geo_data.region,
+            is_in_eu: geo_data.eu,
+            timezone: geo_data.timezone,
+            city: geo_data.city,
+            latitude_longitude: geo_data.ll,
+            metro: geo_data.metro,
+            area: geo_data.area
+        }).save()
+        console.log(user, user_data)
+        process.exit()
         let verificationToken = await new VerificationToken({
             userId: user._id,
             token: crypto.randomBytes(32).toString("hex"),

@@ -57,7 +57,6 @@ const corsOptions = {
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
-
 server.use(cors(corsOptions))
 server.use(xss())
 server.use(flash())
@@ -109,7 +108,6 @@ server.get('/logout', (req, res) => {
 
 // -------------------------------------GOOGLE AUTH ROUTES END-------------------------------------
 server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
-
 // -------------------------------------ROUTES END-------------------------------------
 
 server.use(notFoundMiddleware);
@@ -144,7 +142,7 @@ start();
 // });
 
 console.log('========TIME 4 DISTRICTS========')
-scrape_districts()
+// scrape_districts()
 
 cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
