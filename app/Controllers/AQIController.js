@@ -112,6 +112,7 @@ const getXInTime = async (req, res) => {
                 $lt: end
             }
         };
+        //TOOD: Test export loging
         // Add a condition for device_name if it is truthy
         if (device_name) {
             query.name = {$regex: device_name, $options: 'i'};
