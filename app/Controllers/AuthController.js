@@ -11,7 +11,7 @@ const {lookup} = require('geoip-lite');
 const moment = require("moment/moment");
 const JWTregister = async (req, res, next) => {
     try {
-        const device_type = req.device
+        const device_type = req.device.type
         console.log(device_type)
         process.exit()
         const {name, email, password} = req.body
