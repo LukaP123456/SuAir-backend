@@ -6,7 +6,7 @@ const ExportLogSchema = new mongoose.Schema({
         ref: 'User'
     },
     export_time: Date,
-    export_time_range: Date,
+    export_time_range: {type: String, default: new Date('1900-01-01')},
     measuring_device: String,
 }, {collection: 'export-data-log'});
 

@@ -14,7 +14,6 @@ const moment = require("moment");
 // Also need to log the data which is downloaded->Marko Markovic downaloded on DATE this data->DATA in this format
 
 async function generateCSV(aqData) {
-    console.log(aqData)
     const fields = [
         {label: 'Particular matter 1 concentration', value: 'particular_matter_1'},
         {label: 'Particular matter 10 concentration', value: 'particular_matter_10.concentration'},
@@ -65,7 +64,7 @@ const getAll = async (req, res) => {
         const results = await Model.find({});
         if (generate) {
             await generateCSV(results);
-            await log_export_data(req);
+            await log_export_data(req, null, "All devices");
         }
         res.send(results)
     } catch (error) {
@@ -98,6 +97,7 @@ const getXInTime = async (req, res) => {
         //worst === false you get the best day with the lowest pollution
         const {start, end} = req.query
         const worst = req.query.worst === 'true';
+        const device_name = req.query.device;
         const generate = req.query.generateCSV === 'true';
         const model_name_mapping = {
             Hour: 'HourlyMeasurement',
@@ -105,24 +105,34 @@ const getXInTime = async (req, res) => {
         };
         const model_name = model_name_mapping[req.query.model_name] || 'MonthlyMeasurement';
         const Model = mongoose.model(model_name);
-        const results = await Model.find({
+        // Create a query object
+        let query = {
             'time_stamp': {
                 $gte: start,
                 $lt: end
             }
-        }).sort({
+        };
+        // Add a condition for device_name if it is truthy
+        if (device_name) {
+            query.name = {$regex: device_name, $options: 'i'};
+        }
+        // Execute the query
+        const results = await Model.find(query).sort({
             'particular_matter_10.aqi_us_ranking': worst ? -1 : 1,
             'particular_matter_25.aqi_us_ranking': worst ? -1 : 1
         }).limit(1).exec()
         if (generate) {
             await generateCSV(results);
-            await log_export_data(req, start + end,);
+            console.log(results[0].name)
+            const timeRange = `${start} to ${end}`;
+            await log_export_data(req, timeRange, results[0].name);
         }
         res.send(results)
     } catch (error) {
         console.log(error)
     }
 }
+
 
 const search = async (req, res) => {
     try {
