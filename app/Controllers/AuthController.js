@@ -38,7 +38,6 @@ const JWTregister = async (req, res, next) => {
             area: geo_data.area
         }).save()
         console.log(user, user_data)
-        process.exit()
         let verificationToken = await new VerificationToken({
             userId: user._id,
             token: crypto.randomBytes(32).toString("hex"),
