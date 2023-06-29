@@ -16,7 +16,7 @@ const JWTregister = async (req, res, next) => {
         const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
         const user_agent = req.get('User-Agent');
         const language = req.headers["accept-language"];
-        console.log(lookup(ip_address), ip_address, ip)
+        console.log(lookup(ip), "IP ADDRESS", ip)
         process.exit()
         const user = await new User({
             name: name,
