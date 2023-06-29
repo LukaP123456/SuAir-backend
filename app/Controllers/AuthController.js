@@ -13,7 +13,8 @@ const JWTregister = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
         const ip_address = req.socket.localAddress
-        console.log(ip_address)
+        const user_agent = req.get('User-Agent');
+        console.log(user_agent)
         process.exit()
         const user = await new User({
             name: name,
