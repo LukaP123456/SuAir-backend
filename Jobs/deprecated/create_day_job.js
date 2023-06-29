@@ -101,6 +101,3 @@ async function getDataByNameAndDate(name) {
 createDay()
 
 // module.exports = createDay
-//TODO: cuvaj samo time series podatke. Kada user klikne na neki day,hour month kao favourite to ce se sacuvati u user dokumentu da je kliknuo na taj dan itd.
-// U time series nemoj cuvati array objekata nego svaki objekat neka bude jedan dokument i onda imas posebnu kolekciju za hours,days i months koje su time series i neces imati obicne kolekcije za ovo jer ce se cuvati id od objekta u user dokumentu
-// U sustini nece trebati create_day_job i slicni jer ce sve biti time series.
