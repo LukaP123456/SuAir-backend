@@ -89,10 +89,9 @@ const JWTlogin = async (req, res, next) => {
         const login_time = moment().format('YYYY-MM-DDTHH:mm:ssZ');
         //TODO: Need to test out if device type is correctly working on the browser. In postman it always shows as phone lol
         const device_type = req.device.type
-        console.log(device_type)
         const user_agent = req.get('User-Agent');
         const language = req.headers["accept-language"];
-        const geo_data = lookup("207.97.227.239")
+        const geo_data = lookup(ip_address)
         const user_data = await new UserData({
             range: geo_data.range,
             user_id: user.id,
