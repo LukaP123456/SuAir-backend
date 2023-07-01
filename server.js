@@ -54,7 +54,7 @@ server.use(
 )
 server.use(helmet())
 const corsOptions = {
-    origin: ['http://localhost:3001', 'http://localhost:3000'],//<-- FRONTEND URL GOES HERE
+    origin: ['http://localhost:3001', 'http://localhost:3000', 'https://suair-backend-production.up.railway.app/'],//<-- FRONTEND URL GOES HERE
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
@@ -162,11 +162,11 @@ cron.schedule('0 0 */2 * *', () => {
 //         lastExecution = now;
 //     }
 // });
-cron.schedule('0 1 1 * *', () => {
+cron.schedule('0 4 1 * *', () => {
     get_daily_data()
-    console.log('running a task on the first day of every month at midnight');
+    console.log('running a task on the first day of every month at 4:00 AM');
 });
 cron.schedule('0 2 1 */3 *', () => {
     get_monthly_data()
-    console.log('Running every 48 hours');
+    console.log('Running every three months on the first day of the month at 2:00 AM');
 });
