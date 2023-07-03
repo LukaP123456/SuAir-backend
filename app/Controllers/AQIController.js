@@ -9,9 +9,6 @@ const ExportLog = require("../Models/ExportLog");
 const jwt = require('jsonwebtoken');
 const moment = require("moment");
 
-//TODO: Need to log user data->browser,ip address,web or mobile etc.
-// Also need to log the data which is downloaded->Marko Markovic downaloded on DATE this data->DATA in this format
-
 async function generateCSV(aqData) {
     const fields = [
         {label: 'Particular matter 1 concentration', value: 'particular_matter_1'},
@@ -124,9 +121,8 @@ const getXInTime = async (req, res) => {
             'particular_matter_10.aqi_us_ranking': worst ? -1 : 1,
             'particular_matter_25.aqi_us_ranking': worst ? -1 : 1
         }).limit(1).exec()
-        if (generate) {
+        if (generate && results.length > 0) {
             await generateCSV(results);
-            console.log(results[0].name)
             const timeRange = `${start} to ${end}`;
             await log_export_data(req, timeRange, results[0].name);
         }
@@ -256,9 +252,9 @@ const removeFav = async (req, res, field) => {
 
 const addFav = async (req, res, field) => {
     try {
-        //TODO: When a user registers with google auth the backend will send users id to the front. This id needs to be saved
+        // When a user registers with Google auth the backend will send users id to the front. This id needs to be saved
         // in somewhere on the front. This value is then sent as googleID even though actually it's just users ID from the DB
-        // IF the id is sent as googleID then that means the user used google auth to register, if google_id is false then that means
+        // IF the id is sent as googleID then that means the user used Google auth to register, if google_id is false then that means
         // user used regular registration.
         const google_id = req.get('googleID')
         const item_id = req.body.itemID;
