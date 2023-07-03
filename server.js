@@ -128,7 +128,7 @@ const start = async () => {
 
 start();
 //CRON JOBS
-//Test cron jobs
+//QUE to make sure one cron job runs at a time
 const que = async.queue(async (task, callback) => {
     // This function will be called for each task in the queue
     // `task` is an object representing the cron job to run
@@ -142,6 +142,7 @@ const que = async.queue(async (task, callback) => {
     // Call the callback function to indicate that the task is complete
     callback();
 }, 1); // Set the concurrency to 1 to ensure that only one task runs at a time
+//Test cron jobs
 // cron.schedule('*/5 * * * * *', async () => {
 //     // get_hourly_data(true)
 //     que.push({job: get_hourly_data(true)});
@@ -157,14 +158,14 @@ const que = async.queue(async (task, callback) => {
 // console.log('========TIME 4 DISTRICTS========')
 // scrape_districts()
 cron.schedule('0 0 */2 * *', () => {
-    get_hourly_data()
+    que.push({job: get_hourly_data()});
     console.log('Running every 48 hours');
 });
 cron.schedule('0 4 1 * *', () => {
-    get_daily_data()
+    que.push({job: get_daily_data()});
     console.log('running a task on the first day of every month at 4:00 AM');
 });
 cron.schedule('0 2 1 */3 *', () => {
-    get_monthly_data()
+    que.push({job: get_monthly_data()});
     console.log('Running every three months on the first day of the month at 2:00 AM');
 });
