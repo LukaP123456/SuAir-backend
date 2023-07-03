@@ -3,18 +3,8 @@ require('dotenv').config();
 const moment = require('moment');
 const DailyMeasurementModel = require('../app/Models/AQDataDaily');
 const axios = require("axios");
-const tokens = [
-    process.env.STUDIO_PRESENT_TOKEN,
-    process.env.MAKSIMA_TOKEN,
-    process.env.DESANKA_TOKEN,
-]
-const urls = tokens.map(token => process.env.COMMON_DEVICE_URL + token)
-const lat_long_urls = tokens.map(token => process.env.COMMON_DEVICE_URL + token + "/validated-data")
-const data_files = [
-    {data: '../test-data-json/stud-pres-big-data.json', lat_long_data: '../test-data-json/stud-pres-small-data.json'},
-    {data: '../test-data-json/maksima-big-data.json', lat_long_data: '../test-data-json/maksima-small-data.json'},
-    {data: '../test-data-json/desanka-big-data.json', lat_long_data: '../test-data-json/desanka-small-data.json'},
-]
+
+const {urls, lat_long_urls, data_files} = require('./cron_jobs_setup');
 const get_daily_data = async (test) => {
     try {
         let data = []
@@ -86,5 +76,5 @@ async function saveData(name, data, coordinates) {
     }
 }
 
-// get_daily_data()
+// get_daily_data(true)
 module.exports = get_daily_data
