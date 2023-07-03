@@ -32,6 +32,7 @@ const helmet = require('helmet')
 const cors = require('cors')
 const xss = require('xss-clean')
 const rateLimiter = require('express-rate-limit')
+const async = require('async');
 // -------------------------------------MIDDLEWARES START-------------------------------------
 server.use(express.json()); // for parsing JSON bodies
 server.use(express.urlencoded({extended: true})); // for parsing URL-encoded bodies
@@ -128,37 +129,37 @@ const start = async () => {
 start();
 //CRON JOBS
 //Test cron jobs
-cron.schedule('*/5 * * * * *', () => {
-    get_hourly_data(true)
+const que = async.queue(async (task, callback) => {
+    // This function will be called for each task in the queue
+    // `task` is an object representing the cron job to run
+    // `callback` is a function that must be called when the task is complete
+    // Connect to mongoose before running the cron job
+    await mongoose.connect(process.env.MONGO_COMPASS_URI);
+    // Run the cron job
+    await task.job();
+    // Disconnect from mongoose after the cron job is complete
+    await mongoose.disconnect();
+    // Call the callback function to indicate that the task is complete
+    callback();
+}, 1); // Set the concurrency to 1 to ensure that only one task runs at a time
+cron.schedule('*/5 * * * * *', async () => {
+    // get_hourly_data(true)
+    que.push({job: get_hourly_data(true)});
 });
-cron.schedule('*/15 * * * * *', () => {
-    get_daily_data(true)
+cron.schedule('*/30 * * * * *', async () => {
+    // get_daily_data(true)
+    que.push({job: get_daily_data(true)});
 });
-cron.schedule('*/30 * * * * *', () => {
-    get_monthly_data(true)
+cron.schedule('*/50 * * * * *', async () => {
+    // get_monthly_data(true)
+    que.push({job: get_monthly_data(true)});
 });
-
 // console.log('========TIME 4 DISTRICTS========')
 // scrape_districts()
-
 cron.schedule('0 0 */2 * *', () => {
     get_hourly_data()
     console.log('Running every 48 hours');
 });
-//POSSIBLE CRON SCHEDULE FOR get_daily_data
-// const rule = new schedule.RecurrenceRule();
-// rule.dayOfWeek = [new schedule.Range(0, 6)];
-// rule.hour = 0;
-// rule.minute = 0;
-// rule.second = 0;
-// let lastExecution = new Date();
-// schedule.scheduleJob(rule, () => {
-//     const now = new Date();
-//     if (now - lastExecution >= 29 * 24 * 60 * 60 * 1000) {
-//         console.log('running a task every 29 days');
-//         lastExecution = now;
-//     }
-// });
 cron.schedule('0 4 1 * *', () => {
     get_daily_data()
     console.log('running a task on the first day of every month at 4:00 AM');

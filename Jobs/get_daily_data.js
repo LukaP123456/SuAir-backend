@@ -15,9 +15,9 @@ const data_files = [
     '../test-data-json/desanka-big-data.json',
 ]
 const get_daily_data = async (test) => {
-    let conn = await mongoose.connect(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
     try {
         let data = []
+        // await mongoose.connect(process.env.MONGO_COMPASS_URI);
         if (test) {
             console.log('==============TEST DAILY DATA============')
             for (let i = 0; i < data_files.length; i++) {
@@ -38,9 +38,10 @@ const get_daily_data = async (test) => {
         }
     } catch (error) {
         console.log('Error at getData: ', error);
-    } finally {
-        conn.close()
     }
+    // } finally {
+    //     await mongoose.disconnect();
+    // }
 }
 
 async function saveData(name, data) {
