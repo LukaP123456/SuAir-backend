@@ -15,9 +15,9 @@ const data_files = [
     '../test-data-json/desanka-big-data.json',
 ]
 const get_monthly_data = async (test) => {
+    let conn = await mongoose.connect(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
     try {
         let data = []
-        await mongoose.connect(process.env.MONGO_COMPASS_URI, {useUnifiedTopology: true});
         if (test) {
             console.log('==============TEST MONTHLY DATA============')
             for (let i = 0; i < data_files.length; i++) {
@@ -39,7 +39,7 @@ const get_monthly_data = async (test) => {
     } catch (error) {
         console.log('Error at getData: ', error);
     } finally {
-        await mongoose.close();
+        conn.close()
     }
 }
 
