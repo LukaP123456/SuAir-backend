@@ -26,6 +26,8 @@ const MonthlySchema = new Schema(
         humidity: Number,
         temperature: Number,
         name: String,
+        latitude: String,
+        longitude: String,
     },
     {
         timeseries: {

@@ -9,10 +9,11 @@ const tokens = [
     process.env.DESANKA_TOKEN,
 ]
 const urls = tokens.map(token => process.env.COMMON_DEVICE_URL + token)
+const lat_long_urls = tokens.map(token => process.env.COMMON_DEVICE_URL + token + "/validated-data")
 const data_files = [
-    '../test-data-json/stud-pres-big-data.json',
-    '../test-data-json/maksima-big-data.json',
-    '../test-data-json/desanka-big-data.json',
+    {data: '../test-data-json/stud-pres-big-data.json', lat_long_data: '../test-data-json/stud-pres-small-data.json'},
+    {data: '../test-data-json/maksima-big-data.json', lat_long_data: '../test-data-json/maksima-small-data.json'},
+    {data: '../test-data-json/desanka-big-data.json', lat_long_data: '../test-data-json/desanka-small-data.json'},
 ]
 const get_monthly_data = async (test) => {
     try {
@@ -22,18 +23,23 @@ const get_monthly_data = async (test) => {
             console.log('==============TEST MONTHLY DATA============')
             for (let i = 0; i < data_files.length; i++) {
                 //FETCH DATA FROM JSON FILES FOR TESTING
-                const response = require(data_files[i]);
+                const response = require(data_files[i].data);
+                const lat_long_data = require(data_files[i].lat_long_data)
+                const coordinates = lat_long_data.coordinates
                 data.push(response)
+                console.log(coordinates)
                 const name = data[i].name
-                await saveData(name, data[i].historical.monthly);
+                await saveData(name, data[i].historical.monthly, coordinates);
             }
         } else {
             for (let i = 0; i < data_files.length; i++) {
                 //FETCH DATA FROM URL Should run every 3 months
                 const response = await axios.get(urls[i]);
+                const lat_long_data = await axios.get(lat_long_urls[i]);
+                const coordinates = lat_long_data.data.coordinates
                 data.push(response.data);
                 const name = data[i].name
-                await saveData(name, data[i].historical.monthly);
+                await saveData(name, data[i].historical.monthly, coordinates);
             }
         }
     } catch (error) {
@@ -44,7 +50,7 @@ const get_monthly_data = async (test) => {
     // }
 }
 
-async function saveData(name, data) {
+async function saveData(name, data, coordinates) {
     try {
         const timestamp = moment().format('YYYY-MM-DDTHH:mm:ssZ');
         let times_saved = ""
@@ -64,7 +70,9 @@ async function saveData(name, data) {
                 }, air_pressure: data[i].pr,
                 humidity: data[i].hm,
                 temperature: data[i].tp,
-                name: name
+                name: name,
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude
             })
             try {
                 await newDailyMeasurement.save();
@@ -80,5 +88,5 @@ async function saveData(name, data) {
     }
 }
 
-// get_monthly_data(true)
+// get_monthly_data()
 module.exports = get_monthly_data

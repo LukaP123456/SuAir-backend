@@ -1,4 +1,3 @@
-const AQdata = require('../Models/deprecated/AQdataFree')
 const {AsyncParser} = require('@json2csv/node');
 const fs = require('fs');
 const MonthlyMeasurement = require('../Models/AQDataMonthly')
@@ -33,7 +32,7 @@ async function generateCSV(aqData) {
     fs.writeFileSync(name + '.csv', data);
 }
 
-//TODO: 1. Remake the jobs so they dont all open and close the connection instead only open and close it once
+//TODO:
 //      2. Make a seeding system for time-series data to be able to test them
 //      3. Add lat and long to time-series data from the second route
 
