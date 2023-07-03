@@ -142,18 +142,18 @@ const que = async.queue(async (task, callback) => {
     // Call the callback function to indicate that the task is complete
     callback();
 }, 1); // Set the concurrency to 1 to ensure that only one task runs at a time
-cron.schedule('*/5 * * * * *', async () => {
-    // get_hourly_data(true)
-    que.push({job: get_hourly_data(true)});
-});
-cron.schedule('*/30 * * * * *', async () => {
-    // get_daily_data(true)
-    que.push({job: get_daily_data(true)});
-});
-cron.schedule('*/50 * * * * *', async () => {
-    // get_monthly_data(true)
-    que.push({job: get_monthly_data(true)});
-});
+// cron.schedule('*/5 * * * * *', async () => {
+//     // get_hourly_data(true)
+//     que.push({job: get_hourly_data(true)});
+// });
+// cron.schedule('*/30 * * * * *', async () => {
+//     // get_daily_data(true)
+//     que.push({job: get_daily_data(true)});
+// });
+// cron.schedule('*/50 * * * * *', async () => {
+//     // get_monthly_data(true)
+//     que.push({job: get_monthly_data(true)});
+// });
 // console.log('========TIME 4 DISTRICTS========')
 // scrape_districts()
 cron.schedule('0 0 */2 * *', () => {
