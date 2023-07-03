@@ -37,4 +37,4 @@ async function seedData() {
     await mongoose.disconnect();
 }
 
-seedData()
+// seedData()
