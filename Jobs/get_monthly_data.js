@@ -39,7 +39,7 @@ const get_monthly_data = async (test) => {
     } catch (error) {
         console.log('Error at getData: ', error);
     } finally {
-        await mongoose.disconnect();
+        await mongoose.close();
     }
 }
 
