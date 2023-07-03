@@ -33,6 +33,10 @@ async function generateCSV(aqData) {
     fs.writeFileSync(name + '.csv', data);
 }
 
+//TODO: 1. Remake the jobs so they dont all open and close the connection instead only open and close it once
+//      2. Make a seeding system for time-series data to be able to test them
+//      3. Add lat and long to time-series data from the second route
+
 async function log_export_data(req, export_time_range, measuring_device) {
     let user = null
     let export_time = null
